@@ -19,7 +19,7 @@ class Pokémon:
         return converted
     
     # Creating a Dict with ID as key, Name and Type as Values
-    # Every line is a evolution tree.
+    # Every line is a evolution line.
     pok_table = {
        1: ["Bulbizarre", ["Plante", "Poison"]], 2: ["Herbizarre", ["Plante", "Poison"]], 3: ["Florizarre", ["Plante", "Poison"]],
        4: ["Salamèche", ["Feu"]], 5: ["Reptincel", ["Feu"]], 6: ["Dracaufeu", ["Feu", "Vol"]],
@@ -119,7 +119,7 @@ class Pokémon:
     exp_table = load_exp_table()
 
     # Consctructor
-    def __init__(self, pok_id, level = 3):
+    def __init__(self, pok_id: int, is_wild: bool = False, level = 3):
         self.pok_id = pok_id
         self.name = self.set_name()
         self.level = level
@@ -127,12 +127,14 @@ class Pokémon:
         self.max_health = 25 + random.randint(3,5) * self.level
         self.health = self.max_health
         self.type = self.pok_table[pok_id][1]
+        self.is_wild = is_wild
         self.is_ko = False
         self.determ_is_evolvable()
+        self.private_id = random.randint(1000000,10000000)
    
     # ToString method that display the basic info of the pokémon.
     def __repr__(self):
-         return f"ID:{self.pok_id} {self.name} is a lvl {self.level} {Pokémon.pok_table[self.pok_id][0]} with {self.health}/{self.max_health} HP"
+         return f"{self.name} is a lvl {self.level} {Pokémon.pok_table[self.pok_id][0]} with {self.health}/{self.max_health} HP"
     
     # Method that search the name of the pokemon from it's key in the dic ref_table
     def set_name(self):
@@ -185,35 +187,37 @@ class Pokémon:
         if self.is_evolvable:
             if self.level >= Pokémon.evolution_lvl_table[self.pok_id][1]:
                 sleep(0.5)
-                print(".")
+                print("\t.")
                 sleep(1)
-                print(".")
+                print("\t.")
                 sleep(1)
-                print(".")
+                print("\t.")
 
                 print(f"Congratulaton! {self.name} has evolved from {Pokémon.pok_table[self.pok_id][0]} to ", end='')
                 self.pok_id = Pokémon.evolution_lvl_table[self.pok_id][0]
                 print(f"{Pokémon.pok_table[self.pok_id][0]}")
                 self.max_health += random.randint(40,50)
                 self.name = self.set_name()
-            
+
+    # Method that handle the verification of ID's and, if ok, proceed to evolve the pokémon.      
     def check_stone_evolution(self, stone: str):
         if self.is_evolvable:
             if self.pok_id in Pokémon.evolution_stone_table[stone]:
                 answer = input(f"{self} can be evolved with {stone}. Do you want to proceed ?")
                 if answer == "yes" or answer == "y":
                     sleep(0.5)
-                    print(".")
+                    print("\t.")
                     sleep(1)
-                    print(".")
+                    print("\t.")
                     sleep(1)
-                    print(".")
+                    print("\t.")
 
                     print(f"Congratulaton! {self.name} has evolved from {Pokémon.pok_table[self.pok_id][0]} to ", end='')
                     self.pok_id = Pokémon.evolution_stone_table[stone][self.pok_id]
                     print(f"{Pokémon.pok_table[self.pok_id][0]}")
                     self.max_health += random.randint(40,50)
                     self.name = self.set_name()
+                    return True
 
     # Method that set is_ko to true if the instance has no HP left
     def check_knocked_out(self):
@@ -222,19 +226,21 @@ class Pokémon:
             self.is_ko = True
             print(f"{self.name} is K.O! He cannot continue to fight")
     
-    # Method that recude the health of a pokemon and check if is_knoced_out
+    # Method that reduce the health of a pokemon and check if is_knoced_out
     def lose_health(self,damages):
         self.health -= damages
         self.check_knocked_out()
-
+    
+    # Method that handle healing the pokémon, with potions or pokëmon center!
     def gain_health(self,heal):
         pre_heal = self.health
         self.health += heal
         if self.health > self.max_health:
             self.health = self.max_health
-            print(f"{self.name} has regain {self.health - pre_heal} HP")
-    # method
-    def attack(self):
+        print(f"{self.name} regained {self.health - pre_heal} HP")
+    
+    # method that return a int value corresponding to the damage inflicted to à pokémon
+    def pok_damages(self):
         return math.floor(self.max_health * 0.25 + random.randint(0,3))
 
     
