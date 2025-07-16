@@ -15,7 +15,7 @@ class Trainer:
         return str_output
             
     # Constructor
-    def __init__(self,name,list_pokémon:list):
+    def __init__(self,name:str ,list_pokémon:list):
         self.name = name
         self.is_player = False
         self.list_pokémon = list_pokémon
@@ -40,7 +40,7 @@ class Trainer:
 
 class Player(Trainer):
 
-    def __init__(self, name, list_pokémon):
+    def __init__(self, name:str, list_pokémon: list):
         super().__init__(name, list_pokémon)
         self.is_player = True
         self.inventory = Inventory()
@@ -87,6 +87,7 @@ class Player(Trainer):
             print(f"{wild_pokemon.name} is sent to the PC!")
         else: 
             self.list_pokémon.append(wild_pokemon) 
+    
     def change_pokemon(self):
         print("Enter the number corresponding to the pokémon: ")
         counter = 1
