@@ -1,4 +1,5 @@
 import random
+import os
 from time import sleep
 from Classes.trainer import Trainer,Player
 from Classes.pokemon import Pokémon
@@ -6,6 +7,22 @@ from Classes.pokemon import Pokémon
 # method that handle the battling mechanic with the emblematic 4 choices
 def battle(player:Player, opponent: Trainer | Pokémon):
     # universal nested method that is use by player and opponent for dealing damages.
+    
+    def clearscreen(numlines= 100):
+        """Clear the console.
+        numlines is an optional argument used only as a fall-back.
+        """
+        # Thanks to Steven D'Aprano, http://www.velocityreviews.com/forums
+        if os.name == "posix":
+            # Unix, Linux, macOS, BSD, etc.
+            os.system('clear')
+        elif os.name in ("nt", "dos", "ce"):
+            # DOS/Windows
+            os.system('CLS')
+        else:
+            # Fallback for other operating systems.
+            print('\n' * numlines)
+
     def attack(pokemon_attacking: Pokémon, pokemon_receiving: Pokémon):
         damages = pokemon_attacking.pok_damages()
         print(f"{pokemon_attacking.name} launch an attack!")
@@ -63,9 +80,14 @@ def battle(player:Player, opponent: Trainer | Pokémon):
                         print(f"Your {player.list_pokémon[0].name} is K.O, He's unable to fight!")
                         continue
                 case '2'| 'use object'| 'Use Object':
-                    player.inventory.use_item(True,True,player,opponent)
-                    if opponent.is_wild == False:
-                        break
+                    if type(opponent) == Trainer:
+                        if not player.use_item(in_battle_vs_trainer= True):
+                            continue
+                    elif type(opponent) == Pokémon:
+                        if not player.use_item(in_battle_vs_wild_pok=True,wild_pokémon= opponent):
+                            continue
+                        elif opponent.is_wild == False:
+                            break
                 case '3'| 'Change Pokémon'| 'change'| 'change pokémon':
                     player.change_pokemon()
                 case '4'| 'Flee'| 'flee':
@@ -104,6 +126,7 @@ def battle(player:Player, opponent: Trainer | Pokémon):
                         break
                 else:
                     break
+            clearscreen()
 
         if type(opponent) == Trainer:
             if not check_is_ko(fighter= player) and check_is_ko(fighter= opponent):
@@ -117,8 +140,9 @@ def battle(player:Player, opponent: Trainer | Pokémon):
                 money_lost = random.randint(-3600,-1250)
                 player.inventory.manage_money(money_lost)
                 print(f"You have lost {pre_lost - player.inventory.money} Poké-Dollars!")
-
-
+        
+        sleep(2)
+        clearscreen()
     '''
 
     Entry Point of the method
