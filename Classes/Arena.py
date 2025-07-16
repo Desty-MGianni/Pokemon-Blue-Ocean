@@ -7,4 +7,5 @@ class Arena:
         self.list_sub_trainers = sub_trainers
         self.champion = champion
         self.badge_name = badge_name
+        print("Je suis le plus fort!")
 
