@@ -217,6 +217,7 @@ class Pokémon:
                     self.max_health += random.randint(40,50)
                     self.name = self.set_name()
                     return True
+        return False
 
     # Method that set is_ko to true if the instance has no HP left
     def check_knocked_out(self):
