@@ -1,13 +1,13 @@
-from Classes import (
-    pokemon as pok)
+from Classes.pokemon import Pokémon
 from math import floor
+
 class Inventory:
     balls = {'Poké Ball': 0, 'Super Ball': 0, 'Hyper Ball': 0, 'Master Ball': 0}
     potions = {'Potion': 0, 'Super Potion': 0, 'Hyper Potion': 0, 'Potion Max': 0}
     stones = {'Pierre Feu': 0,'Pierre Eau': 0, 'Pierre Feuille': 0,'Pierre Foudre': 0, 'Pierre Lune': 0}
     revives = {'Rappel': 0, 'Rappel Max': 0}
     badges = {'Boulder Badge': 0, 'Cascade Badge': 0, 'Thunder Badge': 0, 'Rainbow Badge': 0, 'Soul Badge': 0,'Marsh Badge': 0, 'Volcano Badge': 0, 'Earth Badge': 0}
-    list_pok_pc = []
+    list_pokemon_pc = []
     money = 3000
     # constructor with nothing in it as there will not be another instance of inventory except player's Inventory.
     def __init__(self):
@@ -45,18 +45,19 @@ class Inventory:
                 return True
             return False
         
-        # Calls of the verifyP_in_inventory functrion and implementation of the return loop.
+        # Calls of the verify_in_inventory functrion and implementation of the return loop.
         verify_result = verify_in_inventory(item,quantity,Inventory.balls)
         if not verify_result:
             verify_result = verify_in_inventory(item,quantity,Inventory.potions)
             if not verify_result:
                 verify_result = verify_in_inventory(item,quantity,Inventory.revives)
-                verify_result = verify_in_inventory(item,quantity,Inventory.stones)
                 if not verify_result:
-                    print("Error: The item isn't in the database")
+                    verify_result = verify_in_inventory(item,quantity,Inventory.stones)
+                    if not verify_result:
+                        print("Error: The item isn't in the database")
     
     # Method that will handle every dict and every item with nested method
-    def use_item(self, in_battle:bool, battle_vs_pok: bool,player, pokemon):
+    def use_item(self, in_battle:bool, battle_vs_pok: bool,player ,pokemon):
         
         # Nested method that will compare the input and every object dict.
         def dict_selector(input_str: str):
@@ -78,7 +79,7 @@ class Inventory:
                     
 
             # Nested method thatill handle healing pokémon and set value to each potion's health regen
-            def use_potion(input_str: str, pokémon: pok.Pokémon):
+            def use_potion(input_str: str, pokémon: Pokémon):
                 if pokémon.health == pokémon.max_health:
                     print("The pokémon selected is full life!")
                     return False
@@ -98,7 +99,7 @@ class Inventory:
                             Inventory.potions[input_str] -=1
                     return True
                 
-            def use_revive(input_str: str, pokémon: pok.Pokémon):
+            def use_revive(input_str: str, pokémon: Pokémon):
                 if pokémon.is_ko:
                     pokémon.is_ko = False
                     match input_str:
@@ -113,7 +114,7 @@ class Inventory:
                     print("Can't use a revive on a pokémon that isn't KO!")
                     return False
 
-            def use_ball(input_str: str, wild_pokémon: pok.Pokémon, player):
+            def use_ball(input_str: str, wild_pokémon: Pokémon, player):
                 capture_chance = 0
                 match input_str:
                     case "Poké Ball":
@@ -218,8 +219,6 @@ class Inventory:
             else:
                 print("Invalid input! Try again")
         
-  
-
         # entry point of the  use_item method!
         print(self)
         user_input = input("Enter the object you want to use: ")
@@ -240,5 +239,5 @@ class Inventory:
         else:
             print("Error on the name of the badge! It doesn't correspond to the badge dict.")
 
-    def add_pok_pc(self,pokemon:pok.Pokémon):
-        Inventory.list_pok_pc.append(pokemon)
+    def add_pok_pc(self,pokemon: Pokémon):
+        Inventory.list_pokemon_pc.append(pokemon)

@@ -119,7 +119,7 @@ class Pokémon:
     exp_table = load_exp_table()
 
     # Consctructor
-    def __init__(self, pok_id: int, is_wild: bool = False, level = 3):
+    def __init__(self, pok_id: int, is_wild: bool = False, level: int = 3):
         self.pok_id = pok_id
         self.name = self.set_name()
         self.level = level
@@ -154,7 +154,7 @@ class Pokémon:
         print(f"{self.name} has leveled up to {self.level}! (HP + {temp})")
 
     # Method that increase exp and call a check_level_up function
-    def gain_exp(self, enemy_level):
+    def gain_exp(self, enemy_level: int):
         base = random.randint(1,3)
         full = math.floor(base * (enemy_level**2.5) + base * self.level/4)
         self.exp += full
@@ -211,7 +211,6 @@ class Pokémon:
                     print("\t.")
                     sleep(1)
                     print("\t.")
-
                     print(f"Congratulaton! {self.name} has evolved from {Pokémon.pok_table[self.pok_id][0]} to ", end='')
                     self.pok_id = Pokémon.evolution_stone_table[stone][self.pok_id]
                     print(f"{Pokémon.pok_table[self.pok_id][0]}")

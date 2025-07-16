@@ -12,7 +12,6 @@ class Trainer:
         for pokémon in self.list_pokémon:
             str_output += f"\n\t{counter}|{pokémon}"
             counter += 1
-        str_output += f"\n{str(self.inventory)}"
         return str_output
             
     # Constructor
@@ -20,12 +19,7 @@ class Trainer:
         self.name = name
         self.is_player = False
         self.list_pokémon = list_pokémon
-    
-    # toggle method that set a trainer as the player
-    def create_player(self):
-        self.is_player = True
-        self.inventory = Inventory()
-        
+            
     # method that verify if every pokémon of the trainer are K.O.
     def check_all_pok_ko(self):
         counter = 0
@@ -37,15 +31,22 @@ class Trainer:
         else:
             return False
     
-    # Method that will check if we can put the captured pokémon in the pokémon_list or PC if the list is too big!.                                                                                                        
-    def check_limit_pokemon(self,wild_pokemon: Pokémon):
-        if len(self.list_pokémon) == 6:
-            print("You already have the maximum amount of pokémon with you!")
-            sleep(1)
-            self.inventory.add_pok_pc(wild_pokemon)
-            print(f"{wild_pokemon.name} is sent to the PC!")
-        else: 
-            self.list_pokémon.append(wild_pokemon) 
+    def change_pokemon(self):
+        temp = self.list_pokémon[0]
+        self.list_pokémon.pop(0)
+        self.list_pokémon.append(temp)
+        sleep(1)
+        print(f"{self.list_pokémon[0].name}, Go!")
+
+class Player(Trainer):
+
+    def __init__(self, name, list_pokémon):
+        super().__init__(name, list_pokémon)
+        self.is_player = True
+        self.inventory = Inventory()
+    
+    def __repr__(self):
+        return super().__repr__() + f"\n{str(self.inventory)}"
     
     # method that will capture wild pokémon when call in inventory function.
     def capture_pokemon(self, wild_pokemon: Pokémon, odds: int):
@@ -77,23 +78,26 @@ class Trainer:
         else:
             print("Oh no, he freed himself!")
 
-    def change_pokemon(self):
-        if self.is_player:
-            print("Enter the number corresponding to the pokémon: ")
-            counter = 1
-            for pokemon in self.list_pokémon:
-                print(f"{counter} {pokemon}")
-                counter += 1
-            choice = int(input())
-            temp = self.list_pokémon[0]
-            self.list_pokémon[0] = self.list_pokémon[choice - 1]
-            self.list_pokémon[choice - 1] = temp
+    # Method that will check if we can put the captured pokémon in the pokémon_list or PC if the list is too big!.                                                                                                        
+    def check_limit_pokemon(self,wild_pokemon: Pokémon):
+        if len(self.list_pokémon) == 6:
+            print("You already have the maximum amount of pokémon with you!")
             sleep(1)
-            print(f"{self.list_pokémon[0].name}, Go!")
-        else:
-                temp = self.list_pokémon[0]
-                self.list_pokémon.pop(0)
-                self.append(temp)
-                sleep(1)
-                print(f"{self.list_pokémon[0].name},Go!")
-        
+            self.inventory.add_pok_pc(wild_pokemon)
+            print(f"{wild_pokemon.name} is sent to the PC!")
+        else: 
+            self.list_pokémon.append(wild_pokemon) 
+    def change_pokemon(self):
+        print("Enter the number corresponding to the pokémon: ")
+        counter = 1
+        for pokemon in self.list_pokémon:
+            print(f"{counter} {pokemon}")
+            counter += 1
+        choice = int(input())
+        temp = self.list_pokémon[0]
+        self.list_pokémon[0] = self.list_pokémon[choice - 1]
+        self.list_pokémon[choice - 1] = temp
+        sleep(1)
+        print(f"{self.list_pokémon[0].name}, Go!")
+    
+
