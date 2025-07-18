@@ -1,7 +1,6 @@
 import random
 import math
 from time import sleep
-from Classes import inventory
 from Classes.inventory import Inventory
 from Classes.pokemon import Pokémon
 
@@ -20,6 +19,7 @@ class Trainer:
         self.name = name
         self.is_player = False
         self.list_pokémon = list_pokémon
+        self.has_lost_vs_player = False
             
     # method that verify if every pokémon of the trainer are K.O.
     def check_all_pok_ko(self):
@@ -47,7 +47,13 @@ class Player(Trainer):
         self.inventory = Inventory()
     
     def __repr__(self):
-        return super().__repr__() + f"\n{str(self.inventory)}"
+        var_for_badges = self.inventory.get_badges()
+        str_output = "Badges:"
+        for badge in var_for_badges:
+            str_output += f"\n\t{badge}"
+        return super().__repr__() + \
+        f"\n{str_output}" \
+        f"\n{str(self.inventory)}"
     
     # method that will capture wild pokémon when call in inventory function.
     def __capture_pokemon(self, wild_pokemon: Pokémon, odds_from_poké_ball: int):

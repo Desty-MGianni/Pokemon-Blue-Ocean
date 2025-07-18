@@ -15,17 +15,10 @@ class Inventory:
 
     def __repr__(self):
     
-        def dict_0_filter(input_dict: dict):
-            temp = {}
-            for key, value in input_dict.items():
-                 if value > 0:
-                    temp.update({key: value})
-            return temp
-          
-        balls_available = dict_0_filter(self.balls)
-        potions_available = dict_0_filter(self.potions)
-        stones_available = dict_0_filter(self.stones)
-        revives_available = dict_0_filter(self.revives)
+        balls_available = Inventory.dict_0_filter(self.balls)
+        potions_available = Inventory.dict_0_filter(self.potions)
+        stones_available = Inventory.dict_0_filter(self.stones)
+        revives_available = Inventory.dict_0_filter(self.revives)
         
         return "Inventory: \n" \
             f"\tMoney: {self.money} Poké-Dollars \n" \
@@ -33,7 +26,17 @@ class Inventory:
             f"\tPotions: {potions_available} \n" \
             f"\tRappels: {revives_available} \n" \
             f"\tEvolution Stones: {stones_available}"
-        
+
+    def dict_0_filter(input_dict: dict):
+        temp = {}
+        for key, value in input_dict.items():
+            if value > 0:
+                temp.update({key: value})
+        return temp
+    
+    def get_badges(self):
+        return Inventory.dict_0_filter(input_dict= self.badges)
+
     def verify_name_in_dict(self, item: str, dict_looked: dict):
         if item in dict_looked:
             return True
@@ -63,7 +66,7 @@ class Inventory:
         self.list_pokemon_pc.append(pokemon) 
     
 
-    def add_inventory(self,item: str, quantity: int):
+    def update_inventory(self,item: str, quantity: int):
     
         if self.verify_name_in_dict(item= item, dict_looked= self.balls):
             self.balls[item] += quantity

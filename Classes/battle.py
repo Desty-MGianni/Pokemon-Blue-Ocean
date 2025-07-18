@@ -1,6 +1,6 @@
 import random
-from Classes.clearscreen import clearscreen
 from time import sleep
+from Classes.clearscreen import clearscreen
 from Classes.trainer import Trainer,Player
 from Classes.pokemon import Pokémon
 
@@ -25,6 +25,8 @@ def battle(player:Player, opponent: Trainer | Pokémon):
     
     # Method that is called in the beginning of a battle.
     def intro_battle():
+        sleep(1.5)
+        clearscreen()
         intro_message = "You have entered in a battle versus "
         if type(opponent) == Trainer:
             intro_message += f"{opponent.name}"
@@ -115,12 +117,10 @@ def battle(player:Player, opponent: Trainer | Pokémon):
                         return True
                     else:
                         opponent.change_pokemon()
-                        clearscreen()
                         return False
                 else:
                     deal_damage(opponent.list_pokémon[0], player.list_pokémon[0])
                     clearscreen()
-                    print("c")
                     if check_is_ko(fighter= player):
                         return True
             if type(opponent) == Pokémon:
@@ -187,6 +187,7 @@ def battle(player:Player, opponent: Trainer | Pokémon):
                 money_gained = random.randint(1250,3600)
                 print(f"You have won {money_gained} Poké-Dollars!")
                 player.inventory.manage_money(money_gained)
+                opponent.has_lost_vs_player = True
                 sleep(2)
             elif check_is_ko(fighter= player) and not check_is_ko(fighter= opponent):
                 print("You have lost the fight!")
@@ -201,11 +202,14 @@ def battle(player:Player, opponent: Trainer | Pokémon):
     '''
     Entry Point of battle method
 
-    '''   
-    if not check_is_ko(fighter= player):
-        intro_battle()
-        core_gameplay()
+    '''
+    if type(opponent) == Trainer and opponent.has_lost_vs_player:
+        print(f"You have already won vs {opponent.name}")   
     else:
-        print("You can't engage in battle when all your Pokémon are K.O!")
+        if not check_is_ko(fighter= player):
+            intro_battle()
+            core_gameplay()
+        else:
+            print("You can't engage in battle when all your Pokémon are K.O!")
     
     
