@@ -37,5 +37,3 @@ class Arena:
             else:
                 print(f"You have already won the {self.badge_name}!")
                 break
-
-

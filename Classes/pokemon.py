@@ -6,14 +6,14 @@ from time import sleep
 class Pokémon:
     # Functin dant load csv file with experience needed to level up and converting it to int: int format dict
     def load_exp_table():
-        with open('Classes/exp_table.csv', newline='') as exp_table:
+        with open('evo_exp_tables/exp_table.csv', newline='') as exp_table:
             temp = dict(csv.reader(exp_table,delimiter=';'))
             converted = {int(lvl): int(exp) for lvl, exp in temp.items()}
         return converted
     
     # Function that load a evolution by level table and convert it to the right format like exp_table
     def load_evo_lvl_table():
-        with open('Classes/evolution_lvl.csv',newline='') as evo_table:
+        with open('Evo_exp_tables/evolution_lvl.csv',newline='') as evo_table:
             temp = list(csv.reader(evo_table,delimiter=';'))
             converted = {int(prevo_id): [int(evo_id), int(level)] for prevo_id, evo_id, level in temp}
         return converted

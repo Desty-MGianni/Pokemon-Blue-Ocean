@@ -6,7 +6,7 @@ from Classes.trainer import Player
 class Shop:
     
     def load_price_table(name: str):
-        path = f"Classes/Shop_prices/{name.lower()}.csv"
+        path = f"Shop_prices/{name.lower()}.csv"
         with open(path,newline='') as price_table_csv:
             price_table_temp = dict(csv.reader(price_table_csv,delimiter=';'))
             price_table = {item: int(price) for item,price in price_table_temp.items() }
@@ -53,17 +53,16 @@ class Shop:
 
     def __purchase_item(self, player:Player):
         while True:
-            sleep(2)
+            sleep(1)
             clearscreen()
             print('To buy')
             print(self)
             print(f"\tYour money: {player.inventory.money}")
-            player_choice_item = input("What do you want to purchase ? (Type the name of the item. To exit the shop, Type Exit or Cancel) ").title()
+            player_choice_item = input("What do you want to purchase ? (Type the name of the item. To exit the shop, Type exit) ").title()
             if player_choice_item in self.price_table:
                 if self.price_table[player_choice_item] < player.inventory.money:
-                    print(type(self.price_table[player_choice_item]))
-                    print(f"{player_choice_item} : {self.price_table[player_choice_item]}")
-                    print(f"You have {player.inventory.money} Poké $")
+                    print(f"\t{player_choice_item} : {self.price_table[player_choice_item]} Poké $")
+                    print(f"\tYou have {player.inventory.money} Poké $")
                     try:
                         quantity = int(input("How many do you want to purchase? "))
                     except ValueError:
@@ -74,10 +73,12 @@ class Shop:
                         confirmation_input = input(f"Confirm ? y/N ")
                         match confirmation_input:
                             case 'y' | 'yes':
+                                sleep(1)
                                 print(f"You bought {quantity} {player_choice_item}")
                                 player.inventory.money -= total_price
                                 player.inventory.update_inventory(item= player_choice_item, quantity= quantity)
                                 print("Thank you for your purchase!")
+                                sleep(1)
                             case _:
                                 pass
                     elif quantity == 0:
@@ -87,7 +88,8 @@ class Shop:
                 else:
                     print("You don't have enough money!")
 
-            elif player_choice_item == "Cancel" or player_choice_item =="Exit":
+            elif player_choice_item =="Exit":
+                sleep(1)
                 break
             else:
                 print("The item you entered doesn't exist in this shop!")
@@ -101,7 +103,7 @@ class Shop:
                         quantity_to_sell = int(input("How many do you want to sell? "))
                     except ValueError:
                         quantity_to_sell = 0
-                    if quantity_to_sell <= dict_to_lookup[item_to_sell]:
+                    if quantity_to_sell <= dict_to_lookup[item_to_sell] and quantity_to_sell > 0:
                         total_amount_money = quantity_to_sell * Shop.sell_price[item_to_sell]
                         final_choice = input(f"\t{quantity_to_sell} {item_to_sell} will be {total_amount_money}. Continue? (Y/n)").lower()
                         sleep(0.5)
@@ -112,25 +114,29 @@ class Shop:
                                 player.inventory.update_inventory(item= item_to_sell, quantity= -quantity_to_sell)
                                 player.inventory.manage_money(total_amount_money)
                                 print(f"You earned {total_amount_money} Poké $")
+                                sleep(1)
+                    else:
+                        pass
                 else:
                     print(f"You don't have any {item_to_sell}")
             else:
                 print("This type of ball doesn't exist in your inventory!")
 
         while True:
-            sleep(2)
+            sleep(1)
             clearscreen()
             print(player.inventory)
-            item_to_sell = input("Enter item you want to sell: (Type cancel or exit to exit.)" ).title()
+            item_to_sell = input("Enter item you want to sell: (To leave: type exit.)" ).title()
             if item_to_sell.__contains__('Ball'):
                 selling_transaction(dict_to_lookup= player.inventory.balls)
             elif item_to_sell.__contains__('Potion'):
                 selling_transaction(dict_to_lookup= player.inventory.potions)
             elif item_to_sell.__contains__('Rappel'):
                 selling_transaction(dict_to_lookup= player.inventory.revives)
-            elif item_to_sell.__contains__('Stone'):
+            elif item_to_sell.__contains__('Pierre'):
                 selling_transaction(dict_to_lookup= player.inventory.stones)
-            elif item_to_sell == 'Cancel' or item_to_sell == 'Exit':
+            elif item_to_sell == 'Exit':
+                sleep(1)
                 break
             else:
-                print("Error!")
+                pass

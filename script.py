@@ -1,3 +1,4 @@
+from Classes import *
 from Classes.pokemon import Pokémon
 from Classes.shop import Shop
 from Classes.trainer import Trainer, Player
@@ -11,8 +12,8 @@ player.inventory.update_inventory(item= 'Potion',quantity= 5)
 player.inventory.update_inventory(item= 'Hyper Potion',quantity= 2)
 player.inventory.update_inventory(item= 'Pierre Foudre',quantity= 1)
 player.inventory.add_badge_and_no_duplicate('Boulder Badge')
-# battle(player= player, opponent= trainer)
-# battle(player= player, opponent= trainer)
+#battle(player= player, opponent= trainer)
+#battle(player= player, opponent= trainer)
 test_shop = Shop("Max","Argenta")
 test_shop.shop(player)
 player.use_item()
