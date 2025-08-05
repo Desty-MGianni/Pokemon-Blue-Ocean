@@ -5,6 +5,7 @@ from Classes.inventory import Inventory
 from Classes.pokemon import Pokémon
 
 class Trainer:
+    trainer_instances = {}
     def __repr__(self):
         str_output = f"\nTrainer: \n\t{self.name} \n"
         str_output += "Pokémon list:"
@@ -20,6 +21,7 @@ class Trainer:
         self.is_player = False
         self.list_pokémon = list_pokémon
         self.has_lost_vs_player = False
+        Trainer.trainer_instances.update({self.name: self.has_lost_vs_player})
             
     # method that verify if every pokémon of the trainer are K.O.
     def check_all_pok_ko(self):
@@ -81,6 +83,7 @@ class Player(Trainer):
         sleep(0.5)
         if success_number <= odds:
             print(F"Congratulation, {wild_pokemon.name} has been captured!")
+            sleep(1)
             wild_pokemon.is_wild = False
             self.__check_limit_list_pokemon(wild_pokemon)
         else:
@@ -93,6 +96,7 @@ class Player(Trainer):
             sleep(1)
             self.inventory.add_pok_pc(wild_pokemon)
             print(f"{wild_pokemon.name} is sent to the PC!")
+            sleep(1)
         else: 
             self.list_pokémon.append(wild_pokemon) 
     
