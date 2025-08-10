@@ -39,6 +39,11 @@ class Inventory:
     def get_badges(self):
         return Inventory.dict_0_filter(input_dict= self.badges)
 
+    def has_all_badges(self):
+        if self.badges.values() == [1,1,1,1,1,1,1,1]:
+            return True
+        else:
+            return False
     def verify_name_in_dict(self, item: str, dict_looked: dict):
         if item in dict_looked:
             return True

@@ -1,5 +1,5 @@
 from time import sleep
-from Classes.menu import Menu
+from Classes.menu import menu
 from Classes.battle import battle
 from Classes.arena import Arena
 from Classes.pokemon import Pokémon
@@ -9,7 +9,8 @@ from Classes.clearscreen import clearscreen
 
 
 
-class City(Menu):
+class City():
+
     def __init__(self, name: str, has_arena: bool, shop_rank: str, arena_info: dict = None):
         self.name = name
         if has_arena:
@@ -64,30 +65,35 @@ class City(Menu):
     def roaming(self, player: Player):
         while True:
             print(self.name)
-            player_choice = input("Where do you want to go? \n" \
+            choice = input("Where do you want to go? \n" \
             "\t1| Pokémon Center \n" \
             "\t2| Pokémon Shop \n" \
             "\t3| Pokémon Gym\n" \
-            "Enter 1 - 2 - 3 or type exit\n")
-            if player_choice == 'Exit' or player_choice == 'exit':
+            "\tM| Menu\n"
+            "\tE| Exit\n")
+            if choice == 'e' or choice == 'E':
                 break
-            else:
-                try:
-                    player_choice = int(player_choice)
-                except ValueError:
-                    player_choice = 0
-                
-                match player_choice:
-                    case 1:
-                        self.__pokemon_center(player= player)
-                    case 2:
-                        self.shop.shop(player= player)
-                    case 3:
-                        self.arena.arena_loop(player= player)
-                    case _:
-                        continue
+            elif choice == 'm' or choice == 'M':
+                sleep(0.5)
+                menu()
+            try:
+                choice_int = int(choice)
+            except ValueError:
+                choice_int = 0
+            
+            match choice_int:
+                case 1:
+                    self._pokemon_center(player= player)
+                case 2:
+                    self.shop.shop(player= player)
+                case 3:
+                    self.arena.arena_loop(player= player)
+                case _:
+                    continue
 
 class End(City):
+    pokémon_master_defeated = False
+    
     def __init__(self):
         self.name = "Plateau Indigo"
         self.shop = Shop(rank_shop= 'Max',city_name= 'Plateau Indigo')
@@ -108,7 +114,7 @@ class End(City):
                     if self.council_4.has_lost_vs_player:
                         battle(player= player, opponent= self.master)
                         if self.master.has_lost_vs_player:
-                            return True
+                            End.pokémon_master_defeated = True
         self.council_1.has_lost_vs_player = False
         self.council_2.has_lost_vs_player = False
         self.council_3.has_lost_vs_player = False
@@ -135,16 +141,123 @@ class End(City):
                     case 2:
                         self.shop.shop(player= player)
                     case 3:
-                        if self.ligue_pokémon_loop(player= player):
-                            # Trigger la fin du jeu
-                            pass
+                        if player.inventory.has_all_badges:
+                            if self.ligue_pokémon_loop(player= player):
+                                # Trigger la fin du jeu
+                                pass
+                        else:
+                            print("You can't enter the Pokémon tower as you don't have collected all the badges.")
+                            sleep(1)
+                            clearscreen()
                     case _:
                         continue
 
 class Bourg_palette(City):
     def __init__(self):
+        self.has_select_pokémon = False
         self.name = 'Bourg Palette'
-    def roaming(self):
-        choice = input("Where do you want to go ? \n"\
-                       "\t1| Route 1\n")
+
+    def roaming(self, player: Player):
+        while True:
+            print(self.name)
+            choice = input("Where do you want to go ? \n"\
+                    "\t1| Maison\n" \
+                    "\t2| Labo du Professeur Chen\n"\
+                    "\t3| Route 1\n" \
+                    "\tM| Menu\n")
+            if choice == 'M' or choice == 'm':
+                menu()
+            try:
+                choice_int = int(choice)
+            except ValueError: 
+                choice_int = 0
+            match choice_int:
+                case 0:
+                    print("Please enter a number")
+                case 1:
+                    self.home(player= player)
+                case 2:
+                    self.prof_chen_visit(player= player)
+                case 3:
+                    if self.has_select_pokémon:
+                        break
+                    else:
+                        print("You can't go through the routes without a Pokémon, it's too dangerous!")
+                        sleep(2)
+                        clearscreen()
+                case _:
+                    continue
+                
+    def home(self, player: Player):
+        print("Welcome Home!")
+        for pokémon in player.list_pokémon:
+            pokémon.health = pokémon.max_health
+        sleep(2)
+        print("You and your pokémons have slept well")
+        sleep(1)
+        clearscreen()
+
+    def prof_chen_visit(self, player: Player):
+        if not self.has_select_pokémon:
+            bulbizarre = Pokémon(pok_id= 1,level= 5)
+            salamèche = Pokémon(pok_id= 4, level= 5)
+            carapuce = Pokémon(pok_id= 7, level=5)
+            print(f"Hello {player.name} and welcome to my lab!")
+            sleep(1)
+            print(f"I suppose you are here to select you first Pokémon am I right ?")
+            sleep(1)
+            print(".")
+            sleep(1)
+            print(".")
+            sleep(1)
+            print(".")
+            sleep(0.5)
+            while True:
+                clearscreen()
+                print(f"Ok, {player.name}, now you need to choose your Pokémon starter!")
+                print(f"\t1 | {bulbizarre.name}, {bulbizarre.type}\n" 
+                    f"\t2 | {salamèche.name}, {salamèche.type}\n" 
+                    f"\t3 | {carapuce.name}, {carapuce.type}\n"
+                    )
+                starter_choice = ''
+                sleep(1)
+                try:
+                    starter_choice = int(input("Enter the corresponding number: "))
+                except ValueError:
+                    starter_choice = 0
+                match starter_choice:
+                    case 1:
+                        print(f"You chose {bulbizarre.name}")
+                        sleep(2)
+                        player.list_pokémon.append(bulbizarre)
+                        self.has_select_pokémon = True
+                        del salamèche
+                        del carapuce
+                        break
+                    case 2:
+                        print(f"You chose {salamèche.name}")
+                        sleep(2)
+                        player.list_pokémon.append(salamèche)
+                        self.has_select_pokémon = True
+                        del bulbizarre
+                        del carapuce
+                        break
+                    case 3:
+                        print(f"You chose {carapuce.name}")
+                        sleep(2)
+                        player.list_pokémon.append(carapuce)
+                        self.has_select_pokémon = True
+                        del bulbizarre
+                        del salamèche
+                        break
+                    case _:
+                        continue
+            print("Oh, I almost forgot, here is 5 Poké Ball to start your adventure! Gook luck!")
+            player.inventory.update_inventory(item= "Poké Ball",quantity= 5)
+            sleep(2)
+            clearscreen()
+        else:
+            print("You have nothing to do at prof Chen's Lab!")
+            sleep(1)
+            clearscreen()
         
