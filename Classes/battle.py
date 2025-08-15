@@ -59,16 +59,25 @@ def battle(player:Player, opponent: Trainer | Pokémon):
             return option
         
         def attack():
+            counter = 1
             if not player.list_pokémon[0].is_ko:
                 if type(opponent) == Trainer:
                     deal_damage(player.list_pokémon[0], opponent.list_pokémon[0])
                     if opponent.list_pokémon[0].is_ko:
                         player.list_pokémon[0].gain_exp(opponent.list_pokémon[0].level)
+                        while counter < len(player.list_pokémon):
+                            sleep(1)
+                            player.list_pokémon[counter].gain_exp(opponent.level / 2)
+                            counter += 1
                         sleep(1)
                 elif type(opponent) == Pokémon:
                     deal_damage(player.list_pokémon[0],opponent)
                     if opponent.is_ko:
                         player.list_pokémon[0].gain_exp(opponent.level)
+                        while counter < len(player.list_pokémon):
+                            sleep(1)
+                            player.list_pokémon[counter].gain_exp(opponent.level / 2)
+                            counter += 1
                         sleep(2)
                 return True
             else:

@@ -410,24 +410,73 @@ cramois_ile = City(
     has_arena= True, 
     shop_rank= "Max",
     arena_info= {
-        "Name": "Arène d'argenta", 
+        "Name": "Arène de Cramois'île", 
         "Liste Dresseurs": [
             Trainer(
-                name= 'Sous-champion 1', 
-                list_pokémon= [Pokémon(pok_id= 30)]), 
+                name= "Pillard Isidor", 
+                list_pokémon= [
+                    Pokémon(pok_id= 58, level= 36),
+                    Pokémon(pok_id= 37, level= 36),
+                    Pokémon(pok_id= 38, level= 36)
+                ]
+            ), 
             Trainer(
-                name= 'Sous-champion 2', 
-                list_pokémon= [Pokémon(pok_id= 53)])],
+                name= "Intello Erik", 
+                list_pokémon= [
+                    Pokémon(pok_id= 37, level= 36),
+                    Pokémon(pok_id= 37, level= 36),
+                    Pokémon(pok_id= 38, level= 36)
+                ]
+            ),
+            Trainer(
+                name= "Intello Evan",
+                list_pokémon= [
+                    Pokémon(pok_id= 77, level= 34),
+                    Pokémon(pok_id= 4, level= 34),
+                    Pokémon(pok_id= 37, level= 34),
+                    Pokémon(pok_id= 58, level= 34)
+                ]
+            ),
+            Trainer(
+                name= "Pillard Victor",
+                list_pokémon= [
+                    Pokémon(pok_id= 77, level= 41),
+                ]
+            ),
+            Trainer(
+                name= "Intello Didier",
+                list_pokémon= [
+                    Pokémon(pok_id= 78, level= 41)
+                ]
+            ),
+            Trainer(
+                name= "Pillard Armand",
+                list_pokémon= [
+                    Pokémon(pok_id= 37, level= 37),
+                    Pokémon(pok_id= 58, level= 37)
+                ]
+            ),
+            Trainer(
+                name= "Intello Zac",
+                list_pokémon= [
+                    Pokémon(pok_id= 58, level= 37),
+                    Pokémon(pok_id= 37, level= 37)
+                ]
+            )
+        ],
         "Champion": Trainer(
             name= 'Auguste',
             list_pokémon= [
-                Pokémon(pok_id= 43,level= 13), 
-                Pokémon(pok_id= 67,level= 15)
+                Pokémon(pok_id= 58,level= 42), 
+                Pokémon(pok_id= 77, level= 40),
+                Pokémon(pok_id= 78, level= 42),
+                Pokémon(pok_id= 59, level= 47)
             ]
         ),
         "Nom Badge": 'Volcano Badge'
     }
 )
+
 foret_de_jade = Site(
     name= "Foret de Jade",
     list_wild_pok_id= [10, 13, 11, 14, 25],
@@ -686,7 +735,8 @@ océane = Site(
 )
 grotte = Site(
     name= "Grotte",
-
+    list_wild_pok_id= [74, 41, 56, 66, 95],
+    wild_pok_lvl_range= range(14, 18),
     list_trainers= [
         Trainer(
             name= "Pokémoniac Quentin",
@@ -804,9 +854,17 @@ grotte = Site(
 )
 grotte_azurée = Site(
     name= "Grotte Azurée",
-    list_trainers= None)
+    list_wild_pok_id= [47, 82, 42, 57, 132, 67, 101, 64, 74, 75, 54, 55, 79, 80, 129, 130, 129, 60, 61],
+    wild_pok_lvl_range= range(45, 66),
+    list_trainers= None,
+    has_legendary= True,
+    legendary_id= 150,
+    legendary_level= 70
+)
 tour_pokémon = Site(
     name= "Tour Pokémon",
+    list_wild_pok_id= [92, 104, 93],
+    wild_pok_lvl_range= range(13, 24),
     list_trainers= [
         Trainer(
             name= " Gamin Kevin",
@@ -819,7 +877,7 @@ tour_pokémon = Site(
             ]
         ),
         Trainer(
-            name= "Exorciste Lara",
+            name= "Exorciste Lora",
             list_pokémon= [
                 Pokémon(pok_id= 92, level= 24)
             ]
@@ -923,7 +981,10 @@ tour_pokémon = Site(
                 Pokémon(pok_id= 41, level= 23)
             ]
         )
-    ]
+    ],
+    has_legendary= True,
+    legendary_id= 105,
+    legendary_level= 30
 )
 cave_taupiqueur = Site(
     name= "Cave Taupiqueur",
@@ -933,6 +994,8 @@ cave_taupiqueur = Site(
 )
 casino = Site(
     name= "Casino",
+    list_wild_pok_id= None,
+    wild_pok_lvl_range= None,
     list_trainers= [
         Trainer(
             name= "Sbire Team Rocket",
@@ -1037,8 +1100,10 @@ casino = Site(
         )
     ]
 )
-dojo = Road(
+dojo = Site(
     name=  "Dojo Pokémon",
+    list_wild_pok_id= None,
+    wild_pok_lvl_range= None,
     list_trainers= [
         Trainer(
             name= "Karateka Hitoshi",
@@ -1079,24 +1144,132 @@ dojo = Road(
         )
     ]
 )
-sylphe_sarl = Road(
+sylphe_sarl = Site(
     name= "Sylphe S.A.R.L",
+    list_wild_pok_id= None,
+    wild_pok_lvl_range= None,
     list_trainers= [
         Trainer(
             name= "Sbire Team Rocket",
             list_pokémon= [
-                Pokémon(pok_id= 110, level= 28),
-                Pokémon(pok_id= 42, level= 28),
-                Pokémon(pok_id= 109, level= 28)
+                Pokémon(pok_id= 42, level= 25),
+                Pokémon(pok_id= 41, level= 25),
+                Pokémon(pok_id= 41, level= 25),
+                Pokémon(pok_id= 20, level= 25),
+                Pokémon(pok_id= 41, level= 25)
+            ]
+        ),
+        Trainer(
+            name= "Scientifique Julien",
+            list_pokémon= [
+                Pokémon(pok_id= 81, level= 28),
+                Pokémon(pok_id= 100, level= 28),
+                Pokémon(pok_id= 82, level= 28)
             ]
         ),
         Trainer(
             name= "Sbire Team Rocket",
             list_pokémon= [
-                Pokémon(pok_id= 20, level= 26),
-                Pokémon(pok_id= 42, level= 26),
-                Pokémon(pok_id= 24, level= 26),
-                Pokémon(pok_id= 109, level= 26)
+                Pokémon(pok_id= 104, level= 29),
+                Pokémon(pok_id= 41, level= 29)
+            ]
+        ),
+        Trainer(
+          name= "Scientifique Joao",
+          list_pokémon= [
+              Pokémon(pok_id= 88, level= 26),
+              Pokémon(pok_id= 110, level= 26),
+              Pokémon(pok_id= 109, level= 26),
+              Pokémon(pok_id= 110, level= 26),
+          ]  
+        ),
+        Trainer(
+            name= "Sbire Team Rocket",
+            list_pokémon= [
+                Pokémon(pok_id= 20, level= 28),
+                Pokémon(pok_id= 97, level= 28),
+                Pokémon(pok_id= 20, level= 28)
+            ]
+        ),
+        Trainer(
+            name= "Scientifique José",
+            list_pokémon= [
+                Pokémon(pok_id= 101, level= 29),
+                Pokémon(pok_id= 110, level= 29)
+            ]
+        ),
+        Trainer(
+            name= "Sbire Team Rocket",
+            list_pokémon= [
+                Pokémon(pok_id= 23, level= 28),
+                Pokémon(pok_id= 41, level= 28),
+                Pokémon(pok_id= 104, level= 28)
+            ]
+        ),
+        Trainer(
+            name= "Sbire Team Rocket",
+            list_pokémon= [
+                Pokémon(pok_id= 66, level= 29),
+                Pokémon(pok_id= 96, level= 29)
+            ]
+        ),
+        Trainer(
+            name= "Scientifique Rodolphe",
+            list_pokémon= [
+                Pokémon(pok_id= 101, level= 33)
+            ]
+        ),
+        Trainer(
+            name= "Sbire Team Rocket",
+            list_pokémon= [
+                Pokémon(pok_id= 97, level= 33)
+            ]
+        ),
+        Trainer(
+            name= "Jongleur Bibiche",
+            list_pokémon= [
+                Pokémon(pok_id= 64, level= 29),
+                Pokémon(pok_id= 122, level= 29)
+            ]
+        ),
+        Trainer(
+            name= "Scientifique Yanis",
+            list_pokémon= [
+                Pokémon(pok_id= 82, level= 26),
+                Pokémon(pok_id= 81, level= 26),
+                Pokémon(pok_id= 109, level= 26),
+                Pokémon(pok_id= 110, level= 26)
+            ]
+        ),
+        Trainer(
+            name= "Sbire Team Rocket",
+            list_pokémon= [
+                Pokémon(pok_id= 24, level= 33),
+            ]
+        ),
+        Trainer(
+            name= "Sbire Team Rocket",
+            list_pokémon= [
+                Pokémon(pok_id= 66, level= 29),
+                Pokémon(pok_id= 67, level= 29)
+            ]
+        ),
+        Trainer(
+            name= "Sbire Team Rocket",
+            list_pokémon= [
+                Pokémon(pok_id= 41, level= 28),
+                Pokémon(pok_id= 41, level= 28),
+                Pokémon(pok_id= 42, level= 28)
+            ]
+        ),
+        Trainer(
+            name= "Scientifique Thibault",
+            list_pokémon= [
+                Pokémon(pok_id= 100, level= 25),
+                Pokémon(pok_id= 109, level= 25),
+                Pokémon(pok_id= 82, level= 25),
+                Pokémon(pok_id= 81, level= 25),
+                Pokémon(pok_id= 109, level= 25)
             ]
         ),
         Trainer(
@@ -1125,15 +1298,8 @@ sylphe_sarl = Road(
         Trainer(
             name= "Sbire Team Rocket",
             list_pokémon= [
-                Pokémon(pok_id= 20, level= 28),
-                Pokémon(pok_id= 97, level= 28),
-                Pokémon(pok_id= 20, level= 28)
-            ]
-        ),
-        Trainer(
-            name= "Sbire Team Rocket",
-            list_pokémon= [
-                Pokémon(pok_id= 24, level= 33),
+                Pokémon(pok_id= 27,level= 29),
+                Pokémon(pok_id= 28,level= 29)
             ]
         ),
         Trainer(
@@ -1149,9 +1315,80 @@ sylphe_sarl = Road(
         Trainer(
             name= "Sbire Team Rocket",
             list_pokémon= [
+                Pokémon(pok_id= 20, level= 26),
+                Pokémon(pok_id= 42, level= 26),
+                Pokémon(pok_id= 24, level= 26),
+                Pokémon(pok_id= 109, level= 26)
+            ]
+        ),
+        Trainer(
+            name= "Sbire Team Rocket",
+            list_pokémon= [
+                Pokémon(pok_id= 110, level= 28),
+                Pokémon(pok_id= 42, level= 28),
+                Pokémon(pok_id= 109, level= 28)
+            ]
+        ),
+        Trainer(
+            name= "Scientifique Patrick",
+            list_pokémon= [
+                Pokémon(pok_id= 88, level= 29),
+                Pokémon(pok_id= 101, level= 29)
+            ]
+        ),
+        Trainer(
+            name= "Sbire Team Rocket",
+            list_pokémon= [
+                Pokémon(pok_id= 42, level= 28),
+                Pokémon(pok_id= 96, level= 28),
+                Pokémon(pok_id= 97, level= 28)
+            ]
+        ),
+        Trainer(
+            name= "Sbire Team Rocket",
+            list_pokémon= [
+                Pokémon(pok_id= 96, level= 28),
+                Pokémon(pok_id= 88, level= 28),
+                Pokémon(pok_id= 66, level= 28)
+            ]
+        ),
+        Trainer(
+            name= "Scientifique Ed",
+            list_pokémon= [
+                Pokémon(pok_id= 100, level= 28),
+                Pokémon(pok_id= 82, level= 28),
+                Pokémon(pok_id= 109, level= 28)
+            ]
+        ),
+        Trainer(
+            name= "Scientifique Thierry",
+            list_pokémon= [
+                Pokémon(pok_id= 81, level= 29),
+                Pokémon(pok_id= 109, level= 29)
+            ]
+        ),
+        Trainer(
+            name= "Sbire Team Rocket",
+            list_pokémon= [
+                Pokémon(pok_id= 67, level= 33)
+            ]
+        ),
+        Trainer(
+            name= "Sbire Team Rocket",
+            list_pokémon= [
+                Pokémon(pok_id= 19, level= 25),
+                Pokémon(pok_id= 41, level= 25),
+                Pokémon(pok_id= 23, level= 25),
+                Pokémon(pok_id= 19, level= 25),
+                Pokémon(pok_id= 19, level= 25)
+            ]
+        ),
+        Trainer(
+            name= "Sbire Team Rocket",
+            list_pokémon= [
                 Pokémon(pok_id= 104, level= 32),
-                Pokémon(pok_id= 105, level= 32),
-                Pokémon(pok_id= 96, level= 32)
+                Pokémon(pok_id= 96, level= 32),
+                Pokémon(pok_id= 105, level= 32)
             ]
         ),
         Trainer(
@@ -1165,14 +1402,25 @@ sylphe_sarl = Road(
         )
     ]
 )
-iles_écumes = Road(
+iles_écumes = Site(
     name= "îles Écumes",
-    list_trainers= None)
-parc_safari = Road(
+    list_wild_pok_id= [54, 79, 41, 42, 86, 55, 80, 87, 98, 116, 129, 130],
+    wild_pok_lvl_range= range(28, 41),
+    list_trainers= None,
+    has_legendary= True,
+    legendary_id= 144,
+    legendary_level= 50
+)
+parc_safari = Site(
     name= "Parc Safari",
-    list_trainers= None)
-centrale_electrique = Road(
+    list_wild_pok_id= [29, 30, 32, 33, 46, 47, 48, 49, 84, 102, 111, 113, 115, 123, 127, 54, 79, 128, 129, 130, 131, 60, 118, 129, 118, 119, 147, 148],
+    wild_pok_lvl_range= range(20, 36),
+    list_trainers= None
+)
+centrale_electrique = Site(
     name= "Centrale",
+    list_wild_pok_id= [81, 82, 100, 101, 25, 125],
+    wild_pok_lvl_range= range(22, 36),
     list_trainers= [
         Trainer(
             name= "Pokémaniac Achille",
@@ -1181,13 +1429,175 @@ centrale_electrique = Road(
                 Pokémon(pok_id= 108, level= 29)
             ]
         )
-    ])
-manoir_pokémon = Road(
+    ],
+    has_legendary= True,
+    legendary_id= 145,
+    legendary_level= 50
+)
+manoir_pokémon = Site(
     name= "Manoir Pokémon",
-    list_trainers= None)
-route_victoire = Road(
+    list_wild_pok_id= [19, 20, 58, 37, 88, 89, 109, 110, 132],
+    wild_pok_lvl_range= range(32, 37),
+    list_trainers= [
+        Trainer(
+            name= "Gamin Bryan",
+            list_pokémon= [
+                Pokémon(pok_id= 23, level= 33),
+                Pokémon(pok_id= 23, level= 33),
+                Pokémon(pok_id= 20, level= 34),
+            ]
+        ),
+        Trainer(
+            name= "Scientifique Théo",
+            list_pokémon= [
+                Pokémon(pok_id= 101, level= 29),
+                Pokémon(pok_id= 110, level= 29)
+            ]
+        ),
+        Trainer(
+            name= "Pillard Arnie",
+            list_pokémon= [
+                Pokémon(pok_id= 4, level= 34),
+                Pokémon(pok_id= 5, level= 34)
+            ]
+        ),
+        Trainer(
+            name= "Pillard Simon",
+            list_pokémon= [
+                Pokémon(pok_id= 38, level= 38),
+            ]
+        ),
+        Trainer(
+            name= "Scientifique Rayan",
+            list_pokémon= [
+                Pokémon(pok_id= 81, level= 33),
+                Pokémon(pok_id= 82, level= 33),
+                Pokémon(pok_id= 100, level= 33)
+            ]
+        ),
+        Trainer(
+            name= "Pillard Samir",
+            list_pokémon= [
+                Pokémon(pok_id= 58, level= 34),
+                Pokémon(pok_id= 77, level= 34)
+            ]
+        ),
+        Trainer(
+            name= "Scientifique Yvan",
+            list_pokémon= [
+                Pokémon(pok_id= 81, level= 34),
+                Pokémon(pok_id= 101, level= 34)
+            ]
+        )
+    ])
+route_victoire = Site(
     name= "Route Victoire",
-    list_trainers= None)
+    list_wild_pok_id= [95, 66, 74, 41, 42, 56, 67, 105, 24, 28, 106, 107, 138, 140],
+    wild_pok_lvl_range= range(34, 46),
+    list_trainers= [
+        Trainer(
+            name= "Topdresseur Naomi",
+            list_pokémon= [
+                Pokémon(pok_id= 53, level= 42),
+                Pokémon(pok_id= 77, level= 42),
+                Pokémon(pok_id= 78, level= 42),
+                Pokémon(pok_id= 37, level= 42),
+                Pokémon(pok_id= 38, level= 42)
+            ]
+        ),
+        Trainer(
+            name= "Topdresseur Enzo",
+            list_pokémon= [
+                Pokémon(pok_id= 20, level= 42),
+                Pokémon(pok_id= 2, level= 42),
+                Pokémon(pok_id= 8, level= 42),
+                Pokémon(pok_id= 5, level= 42),
+                Pokémon(pok_id= 6, level= 42)
+            ]
+        ),
+        Trainer(
+            name= "Karatéka Daisuke",
+            list_pokémon= [
+                Pokémon(pok_id= 67, level= 43),
+                Pokémon(pok_id= 66, level= 43),
+                Pokémon(pok_id= 67, level= 43)
+            ]
+        ),
+        Trainer(
+            name= "Jongjeur Nelson",
+            list_pokémon= [
+                Pokémon(pok_id= 96, level= 41),
+                Pokémon(pok_id= 97, level= 41),
+                Pokémon(pok_id= 64, level= 41),
+                Pokémon(pok_id= 64, level= 41)
+            ]
+        ),
+        Trainer(
+            name= "Dompteur Vincent",
+            list_pokémon= [
+                Pokémon(pok_id= 53, level= 44),
+                Pokémon(pok_id= 55, level= 44)
+            ]
+        ),
+        Trainer(
+            name= "Jongleur JB",
+            list_pokémon= [
+                Pokémon(pok_id= 122, level= 48)
+            ]
+        ),
+        Trainer(
+            name= "Pokémaniac Adrien",
+            list_pokémon= [
+                Pokémon(pok_id= 5, level= 40),
+                Pokémon(pok_id= 131, level= 40),
+                Pokémon(pok_id= 108, level= 40)
+            ]
+        ),
+        Trainer(
+            name= "Topdresseur Georges",
+            list_pokémon= [
+                Pokémon(pok_id= 103, level= 42),
+                Pokémon(pok_id= 28, level= 42),
+                Pokémon(pok_id= 91, level= 42),
+                Pokémon(pok_id= 101, level= 42),
+                Pokémon(pok_id= 59, level= 42)
+            ]
+        ),
+        Trainer(
+            name= "Topdresseur Alexia",
+            list_pokémon= [
+                Pokémon(pok_id= 35, level= 42),
+                Pokémon(pok_id= 39, level= 42),
+                Pokémon(pok_id= 53, level= 42),
+                Pokémon(pok_id= 87, level= 42),
+                Pokémon(pok_id= 113, level= 42)
+            ]
+        ),
+        Trainer(
+            name= "Topdresseur Lorenzo",
+            list_pokémon= [
+                Pokémon(pok_id= 99, level= 41),
+                Pokémon(pok_id= 61, level= 42),
+                Pokémon(pok_id= 73, level= 42),
+                Pokémon(pok_id= 117, level= 42),
+                Pokémon(pok_id= 9, level= 43)
+            ]
+        ),
+        Trainer(
+            name= "Topdresseur Caroline",
+            list_pokémon= [
+                Pokémon(pok_id= 69, level= 42),
+                Pokémon(pok_id= 70, level= 42),
+                Pokémon(pok_id= 71, level= 42),
+                Pokémon(pok_id= 46, level= 42),
+                Pokémon(pok_id= 47, level= 42)
+            ]
+        )
+    ],
+    has_legendary= True,
+    legendary_id= 146,
+    legendary_level= 50
+)
 
 road_1 = Road(
     name= "Route 1",
@@ -1930,6 +2340,8 @@ road_15 = Road(
 )
 road_16 = Road(
     name= "Route 16",
+    list_wild_pok_id= [84, 19, 21, 20],
+    wild_pok_lvl_range= range(18, 26),
     list_trainers= [
         Trainer(
             name= "Motard Layo",
@@ -1978,13 +2390,29 @@ road_16 = Road(
 )
 road_17 = Road(
     name= "Route 17",
+    list_wild_pok_id= [84, 21, 20, 19, 22],
+    wild_pok_lvl_range= range(22, 30),
     list_trainers= [
-         Trainer(
+        Trainer(
+            name= "Motard Jeoffrey",
+            list_pokémon= [
+                Pokémon(pok_id= 66, level= 29),
+                Pokémon(pok_id= 68, level= 29)
+            ]
+        ),
+        Trainer(
             name= "Motard Virgile",
             list_pokémon= [
                 Pokémon(pok_id= 110, level= 28),
                 Pokémon(pok_id= 109, level= 28),
                 Pokémon(pok_id= 110, level= 28)
+            ]
+        ),
+        Trainer(
+            name= "Motard Jason",
+            list_pokémon= [
+                Pokémon(pok_id= 56, level= 29),
+                Pokémon(pok_id= 57, level= 29)
             ]
         ),
         Trainer(
@@ -2003,6 +2431,33 @@ road_17 = Road(
             ]
         ),
         Trainer(
+            name= "Motard Panis",
+            list_pokémon= [
+                Pokémon(pok_id= 100, level= 29),
+                Pokémon(pok_id= 100, level= 29)
+            ]
+        ),
+        Trainer(
+            name= "Loubard Loris",
+            list_pokémon= [
+                Pokémon(pok_id= 67, level= 33)
+            ]
+        ),
+        Trainer(
+            name= "Loubard Didier",
+            list_pokémon= [
+                Pokémon(pok_id= 57, level= 29),
+                Pokémon(pok_id= 67, level= 29)
+            ]
+        ),
+        Trainer(
+            name= "Motard Romain",
+            list_pokémon= [
+                Pokémon(pok_id= 110, level= 29),
+                Pokémon(pok_id= 89, level= 29)
+            ]
+        ),
+        Trainer(
             name= "Motard William",
             list_pokémon= [
                 Pokémon(pok_id= 109, level= 25),
@@ -2016,6 +2471,8 @@ road_17 = Road(
 )
 road_18 = Road(
     name= "Route 18",
+    list_wild_pok_id= [84, 21, 20, 22, 19],
+    wild_pok_lvl_range= range(23, 30),
     list_trainers= [
         Trainer(
             name= "Ornithologue Wilfried",
@@ -2042,6 +2499,8 @@ road_18 = Road(
     ])
 road_19 = Road(
     name= "Route 19",
+    list_wild_pok_id= [72, 129, 130, 98, 116, 117, 99, 54, 79],
+    wild_pok_lvl_range= range(15, 36),
     list_trainers= [
         Trainer(
             name= "Nageur Richard",
@@ -2051,7 +2510,7 @@ road_19 = Road(
             ]
         ),
         Trainer(
-            name= "Nageur Théo",
+            name= "Nageur Téo",
             list_pokémon= [
                 Pokémon(pok_id= 118, level= 29),
                 Pokémon(pok_id= 116, level= 29),
@@ -2059,26 +2518,245 @@ road_19 = Road(
             ]
         ),
         Trainer(
-            name= "",
+            name= "Nageur Antoine",
             list_pokémon= [
-                Pokémon(pok_id=)
+                Pokémon(pok_id= 116, level= 30),
+                Pokémon(pok_id= 116, level= 30)
+            ]
+        ),
+        Trainer(
+            name= "Nageur David",
+            list_pokémon= [
+                Pokémon(pok_id= 118, level= 29),
+                Pokémon(pok_id= 90, level= 29),
+                Pokémon(pok_id= 119, level= 29)
+            ]
+        ),
+        Trainer(
+            name= "Nageur Dominique",
+            list_pokémon= [
+                Pokémon(pok_id= 116, level= 27),
+                Pokémon(pok_id= 72, level= 27),
+                Pokémon(pok_id= 72, level= 27),
+                Pokémon(pok_id= 118, level= 27)
+            ]
+        ),
+        Trainer(
+            name= "Nageur Mathéo",
+            list_pokémon= [
+                Pokémon(pok_id= 60, level= 30),
+                Pokémon(pok_id= 61, level= 30)
+            ]
+        ),
+        Trainer(
+            name= "Nageur Axel",
+            list_pokémon= [
+                Pokémon(pok_id= 72, level= 27),
+                Pokémon(pok_id= 72, level= 27),
+                Pokémon(pok_id= 120, level= 27),
+                Pokémon(pok_id= 116, level= 27),
+                Pokémon(pok_id= 73, level= 27)
+            ]
+        ),
+        Trainer(
+            name= "Nageuse Alice",
+            list_pokémon= [
+                Pokémon(pok_id= 118, level= 30),
+                Pokémon(pok_id= 119, level= 30)
+            ]
+        ),
+        Trainer(
+            name= "Nageuse Anya",
+            list_pokémon= [
+                Pokémon(pok_id= 60, level= 27),
+                Pokémon(pok_id= 118, level= 27),
+                Pokémon(pok_id= 119, level= 27),
+                Pokémon(pok_id= 118, level= 27),
+                Pokémon(pok_id= 60, level= 27)
+            ]
+        ),
+        Trainer(
+            name= "Nageuse Constance",
+            list_pokémon= [
+                Pokémon(pok_id= 120, level= 29),
+                Pokémon(pok_id= 120, level= 29),
+                Pokémon(pok_id= 120, level= 29)
             ]
         )
     ])
 road_20 = Road(
     name= "Route 20",
-    list_trainers= None)
+    list_wild_pok_id= [72, 129, 130, 98, 99, 116, 117, 54, 79],
+    wild_pok_lvl_range= range(15, 36),
+    list_trainers= [
+        Trainer(
+            name= "Nageur Benoit",
+            list_pokémon= [
+                Pokémon(pok_id= 90, level= 31),
+                Pokémon(pok_id= 91, level= 31)
+            ]
+        ),
+        Trainer(
+            name= "Nageur Daniel",
+            list_pokémon= [
+                Pokémon(pok_id= 116, level= 28),
+                Pokémon(pok_id= 116, level= 28),
+                Pokémon(pok_id= 117, level= 28),
+                Pokémon(pok_id= 116, level= 28),
+            ]
+        ),
+        Trainer(
+            name= "Nageuse Shirley",
+            list_pokémon= [
+                Pokémon(pok_id= 117, level= 30),
+                Pokémon(pok_id= 116, level= 30),
+                Pokémon(pok_id= 117, level= 30)
+            ]
+        ),
+        Trainer(
+            name= "Nageuse Sabrina",
+            list_pokémon= [
+                Pokémon(pok_id= 119, level= 35)
+            ]
+        ),
+        Trainer(
+            name= "Pique-Nique Irène",
+            list_pokémon= [
+                Pokémon(pok_id= 72, level= 30),
+                Pokémon(pok_id= 116, level= 30),
+                Pokémon(pok_id= 86, level= 30)
+            ]
+        ),
+        Trainer(
+            name= "Ornithologue Roger",
+            list_pokémon= [
+                Pokémon(pok_id= 22, level= 30),
+                Pokémon(pok_id= 22, level= 30),
+                Pokémon(pok_id= 17, level= 30)
+            ]
+        ),
+        Trainer(
+            name= "Nageuse Jade",
+            list_pokémon= [
+                Pokémon(pok_id= 90, level= 30),
+                Pokémon(pok_id= 90, level= 30),
+                Pokémon(pok_id= 91, level= 30),
+            ]
+        ),
+        Trainer(
+            name= "Nageur Jean",
+            list_pokémon= [
+                Pokémon(pok_id= 120, level= 35)
+            ]
+        ),
+        Trainer(
+            name= "Pique-Nique Clo",
+            list_pokémon= [
+                Pokémon(pok_id= 118, level= 31),
+                Pokémon(pok_id= 119, level= 30)
+            ]
+        ),
+        Trainer(
+            name= "Nageuse Melissa",
+            list_pokémon= [
+                Pokémon(pok_id= 60, level= 31),
+                Pokémon(pok_id= 119, level= 31)
+            ]
+        )
+    ])
 road_21 = Road(
     name= "Route 21",
-    list_trainers= None)
+    list_wild_pok_id= [114, 72, 73, 129, 130, 98, 99, 116, 117, 54, 79],
+    wild_pok_lvl_range= range(20, 36),
+    list_trainers= [
+        Trainer(
+            name= "Pêcheur Aristide",
+            list_pokémon= [
+                Pokémon(pok_id= 129, level= 27),
+                Pokémon(pok_id= 129, level= 27),
+                Pokémon(pok_id= 129, level= 27),
+                Pokémon(pok_id= 129, level= 27),
+                Pokémon(pok_id= 129, level= 27),
+                Pokémon(pok_id= 129, level= 27)
+            ]
+        ),
+        Trainer(
+            name= "Pêcheur Fabien",
+            list_pokémon= [
+                Pokémon(pok_id= 119, level= 28),
+                Pokémon(pok_id= 119, level= 28),
+                Pokémon(pok_id= 118, level= 28),
+                Pokémon(pok_id= 119, level= 28)
+            ]
+        ),
+        Trainer(
+            name= "Nageur Sylvain",
+            list_pokémon= [
+                Pokémon(pok_id= 117, level= 33),
+                Pokémon(pok_id= 72, level= 33)
+            ]
+        ),
+        Trainer(
+            name= "Pêcheur Claude",
+            list_pokémon= [
+                Pokémon(pok_id= 90, level= 31),
+                Pokémon(pok_id= 91, level= 31)
+            ]
+        ),
+        Trainer(
+            name= "Pêcheur Noël",
+            list_pokémon= [
+                Pokémon(pok_id= 118, level= 33),
+                Pokémon(pok_id= 119, level= 33)
+            ]
+        ),
+        Trainer(
+            name= "Nageur Jacques",
+            list_pokémon= [
+                Pokémon(pok_id= 121, level= 37)
+            ]
+        ),
+        Trainer(
+            name= "Nageur Pacôme",
+            list_pokémon= [
+                Pokémon(pok_id= 61, level= 32),
+                Pokémon(pok_id= 72, level= 32),
+                Pokémon(pok_id= 117, level= 32)
+            ]
+        ),
+        Trainer(
+            name= "Nageur Jerôme",
+            list_pokémon= [
+                Pokémon(pok_id= 120, level= 33),
+                Pokémon(pok_id= 8, level= 33)
+            ]
+        )
+    ]
+)
 road_22 = Road(
     name= "Route 22",
-    list_trainers= None)
+    list_wild_pok_id= [19, 56, 21],
+    wild_pok_lvl_range= range(2, 6),
+    list_trainers= [
+        Trainer(
+            name= "Gamin Kevin",
+            list_pokémon= [
+                Pokémon(pok_id= 16, level= 9),
+                Pokémon(pok_id= 4, level= 9)
+            ]
+        )
+    ]
+)
 road_23 = Road(
     name= "Route 23",
-    list_trainers= None)
+    list_wild_pok_id= [56, 57, 21, 22, 23, 24, 27, 28, 54, 79, 129, 130, 60, 61],
+    wild_pok_lvl_range= range(20, 44),
+    list_trainers= None
+)
 road_24 = Road(
     name= "Route 24",
+    list_wild_pok_id= [43, 69, 10, 11, 13, 14, 16, 63],
+    wild_pok_lvl_range= range(8, 15),
     list_trainers= [
         Trainer(
             name= "Scout Aymeric",
@@ -2123,11 +2801,20 @@ road_24 = Road(
                 Pokémon(pok_id= 23, level= 15),
                 Pokémon(pok_id= 41, level= 15)
             ]
+        ),
+        Trainer(
+            name= "Campeur Djamel",
+            list_pokémon= [
+                Pokémon(pok_id= 19, level= 14),
+                Pokémon(pok_id= 23, level= 14)
+            ]
         )
     ]
 )
 road_25 = Road(
     name= "Route 25",
+    list_wild_pok_id= [43, 69, 10, 11, 13, 14, 16, 63, 72, 129, 98, 116],
+    wild_pok_lvl_range= range(8, 16),
     list_trainers= [
         Trainer(
             name= "Montagnard François",
@@ -2253,7 +2940,8 @@ relation_map_dict = {
     road_23: [route_victoire, road_22],
     road_24: [road_25, grotte_azurée, azuria],
     road_25: [road_24],
-    }
+}
+
 
 def creation_player():
     print("Hello and welcome to my Python made Pokémon 1st generation!")
@@ -2284,6 +2972,7 @@ def where_to_go(position):
 def game_loop(player: Player):
     where_i_am = bourg_palette
     while True:
+        clearscreen()
         where_i_am.roaming(player= player)
         if type(where_i_am) == End and End.pokémon_master_defeated:
             break

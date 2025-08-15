@@ -16,18 +16,35 @@ class Road:
         self.has_beaten_all_trainer = False
 
     def roaming(self, player: Player):
+        if self.name == "Route 22" and player.inventory.has_all_badges():
+            print("You have to prove that you can challenge the league!")
+            sleep(2)
+            battle(
+                player= player, 
+                opponent= Trainer(
+                    name= "Rival",
+                    list_pokémon= [
+                        Pokémon(pok_id= 18, level= 47),
+                        Pokémon(pok_id= 65, level= 47),
+                        Pokémon(pok_id= 111, level= 45),
+                        Pokémon(pok_id= 59, level= 45),
+                        Pokémon(pok_id= 130, level= 45),
+                        Pokémon(pok_id= 3, level= 53)
+                    ]
+                ))
         while True:
             print(self.name)
             choice =input("What do you want to do ?:\n" \
             "\t1| Go through the road (you will battle vs trainers if not already done.)\n" \
-            "\t2| Go in the bushes the bushes \n" \
+            "\t2| Roam through the bushes\n" \
             "\tM| Open menu\n" \
             "\tE| Exit the road\n")
         
             if choice == 'e' or choice == 'E':
                 break
             elif choice == 'm' or choice == 'M':
-                menu()
+                menu(player= player)
+                continue
             try:
                 choice_int = int(choice)
             except ValueError:
@@ -102,14 +119,16 @@ class Site(Road):
             if choice == 'e' or choice == 'E':
                 break
             elif choice == 'm' or choice == 'M':
-                menu()
+                menu(player= player)
+                continue
             try:
                 choice_int = int(choice)
             except ValueError:
                 choice_int = 0
             match choice_int:
                 case 0:
-                    print("incorrect input, please enter a number!")
+                    print("Invalid input!")
+                    sleep(1)
                 case 1:
                     clearscreen()
                     if self.trainers == None:

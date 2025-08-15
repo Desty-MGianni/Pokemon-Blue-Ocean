@@ -101,7 +101,7 @@ class Pokémon:
        79: ["Ramoloss", ["Eau", "Psy"]], 
        80: ["Flagadoss", ["Eau", "Psy"]],
        81: ["Magnéti", ["Éléctrik", "Acier"]], 
-       82: ["Magnétorn", ["Éléctrik", "Acier"]],
+       82: ["Magnéton", ["Éléctrik", "Acier"]],
        83: ["Canarticho", ["Normal", "Vol"]],
        84: ["Doduo", ["Normal", "Vol"]], 
        85: ["Dodrio", ["Normal", "Vol"]],

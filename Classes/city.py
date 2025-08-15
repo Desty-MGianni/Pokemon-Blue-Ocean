@@ -49,6 +49,7 @@ class City():
                             print('.')
                             sleep(0.5)
                             for pokémon in player.list_pokémon:
+                                pokémon.is_ko = False
                                 pokémon.health = pokémon.max_health
                             print('Your Pokémons have been treated, they are in great shape!')
                             sleep(1)
@@ -74,22 +75,23 @@ class City():
             if choice == 'e' or choice == 'E':
                 break
             elif choice == 'm' or choice == 'M':
-                sleep(0.5)
-                menu()
-            try:
-                choice_int = int(choice)
-            except ValueError:
-                choice_int = 0
-            
-            match choice_int:
-                case 1:
-                    self._pokemon_center(player= player)
-                case 2:
-                    self.shop.shop(player= player)
-                case 3:
-                    self.arena.arena_loop(player= player)
-                case _:
-                    continue
+                menu(player= player)
+                continue
+            else:
+                try:
+                    choice_int = int(choice)
+                except ValueError:
+                    choice_int = 0
+                
+                match choice_int:
+                    case 1:
+                        self._pokemon_center(player= player)
+                    case 2:
+                        self.shop.shop(player= player)
+                    case 3:
+                        self.arena.arena_loop(player= player)
+                    case _:
+                        continue
 
 class End(City):
     pokémon_master_defeated = False
@@ -127,9 +129,13 @@ class End(City):
             "\t1| Pokémon Center \n" \
             "\t2| Pokémon Shop \n" \
             "\t3| League Tower\n" \
-            "Enter 1 - 2 - 3 or type exit\n")
-            if player_choice == 'Exit' or player_choice == 'exit':
+            "\tM| Menu\n" \
+            "\tE| Exit\n")
+            if player_choice == 'E' or player_choice == 'e':
                 break
+            elif player_choice == 'M' or player_choice == 'm':
+                menu(player= player)
+                continue
             else:
                 try:
                     player_choice = int(player_choice)
@@ -163,34 +169,39 @@ class Bourg_palette(City):
             choice = input("Where do you want to go ? \n"\
                     "\t1| Maison\n" \
                     "\t2| Labo du Professeur Chen\n"\
-                    "\t3| Route 1\n" \
-                    "\tM| Menu\n")
+                    "\tM| Menu\n"
+                    "\tE| Exit Bourg Palette\n" \
+            )
             if choice == 'M' or choice == 'm':
-                menu()
-            try:
-                choice_int = int(choice)
-            except ValueError: 
-                choice_int = 0
-            match choice_int:
-                case 0:
-                    print("Please enter a number")
-                case 1:
-                    self.home(player= player)
-                case 2:
-                    self.prof_chen_visit(player= player)
-                case 3:
-                    if self.has_select_pokémon:
-                        break
-                    else:
-                        print("You can't go through the routes without a Pokémon, it's too dangerous!")
-                        sleep(2)
-                        clearscreen()
-                case _:
-                    continue
+                menu(player= player)
+                continue
+
+            elif choice == 'E' or choice == 'e':
+                if self.has_select_pokémon:
+                    break
+                else:
+                    print("You can't go through the routes without a Pokémon, it's too dangerous!")
+                    sleep(2)
+                    clearscreen()
+            else:
+                try:
+                    choice_int = int(choice)
+                except ValueError: 
+                    choice_int = 0
+                match choice_int:
+                    case 0:
+                        print("Please enter a number")
+                    case 1:
+                        self.home(player= player)
+                    case 2:
+                        self.prof_chen_visit(player= player)
+                    case _:
+                        continue
                 
     def home(self, player: Player):
         print("Welcome Home!")
         for pokémon in player.list_pokémon:
+            pokémon.is_ko = False
             pokémon.health = pokémon.max_health
         sleep(2)
         print("You and your pokémons have slept well")
