@@ -1,3 +1,4 @@
+import beaupy
 from time import sleep
 from Classes.menu import menu
 from Classes.battle import battle
@@ -14,149 +15,193 @@ class City():
     def __init__(self, name: str, has_arena: bool, shop_rank: str, arena_info: dict = None):
         self.name = name
         if has_arena:
-            self.arena = Arena(arena_info['Name'],arena_info['Liste Dresseurs'],arena_info['Champion'],arena_info['Nom Badge'])
+            self.arena = Arena(
+                arena_info['Name'],
+                arena_info['Liste Dresseurs'],
+                arena_info['Champion'],
+                arena_info['Nom Badge']
+            )
         self.shop = Shop(rank_shop= shop_rank, city_name= self.name)
         
     def _pokemon_center(self, player: Player):
         while True:
-            print(f"You are in {self.name}'s Pokémon center!")
-            choice = input("What do you want to do ? "
-                            "\n\t1| Go to the nurse." 
-                            "\n\t2| Go to the PC. "
-                            "\n\tE| Exit \n")
-            if choice == 'e' or choice == 'E':
-                print("Thank you for you visit!")
-                sleep(1)
-                clearscreen()
-                break
-            try:
-                choice = int(choice)
-            except ValueError:
-                choice = -1
+            print(f"\tYou are in {self.name}'s Pokémon center!")
+            list_options = [
+                "Go to the nurse.",
+                "Go to the PC.",
+                "Exit"
+            ]
+            choice = beaupy.select(options= list_options, return_index= True, cursor= "--->")
             match choice:
+                case 0:
+                    heal = beaupy.confirm("Hello and welcome! Do you want me to heal your Pokémons?")
+                    if not heal:
+                        clearscreen()
+                        continue
+                    else:
+                        sleep(0.5)
+                        print('.')
+                        sleep(0.5)
+                        print('.')
+                        sleep(0.5)
+                        print('.')
+                        sleep(0.5)
+                        for pokémon in player.list_pokémon:
+                            pokémon.is_ko = False
+                            pokémon.health = pokémon.max_health
+                        print('Your Pokémons have been treated, they are in great shape!')
+                        sleep(1)
+                        clearscreen()
                 case 1:
-                    heal_input = input("Hello! Do you want me to heal your Pokémons ? Y/n\n").lower()
-                    match heal_input:
-                        case 'n' | 'no':
-                            clearscreen()
-                            continue
-                        case _:
-                            sleep(0.5)
-                            print('.')
-                            sleep(0.5)
-                            print('.')
-                            sleep(0.5)
-                            print('.')
-                            sleep(0.5)
-                            for pokémon in player.list_pokémon:
-                                pokémon.is_ko = False
-                                pokémon.health = pokémon.max_health
-                            print('Your Pokémons have been treated, they are in great shape!')
-                            sleep(1)
-                            clearscreen()
-                case 2:
                     sleep(1)
                     clearscreen()
                     player.inventory.interact_with_pc(player= player)
                     clearscreen()
+                case 2:
+                    break
                 case _:
                     print("Invalid input!")
                     sleep(0.5)
-                    continue
+                    
+    
     def roaming(self, player: Player):
         while True:
-            print(self.name)
-            choice = input("Where do you want to go? \n" \
-            "\t1| Pokémon Center \n" \
-            "\t2| Pokémon Shop \n" \
-            "\t3| Pokémon Gym\n" \
-            "\tM| Menu\n"
-            "\tE| Exit\n")
-            if choice == 'e' or choice == 'E':
-                break
-            elif choice == 'm' or choice == 'M':
-                menu(player= player)
-                continue
-            else:
-                try:
-                    choice_int = int(choice)
-                except ValueError:
-                    choice_int = 0
-                
-                match choice_int:
-                    case 1:
-                        self._pokemon_center(player= player)
-                    case 2:
-                        self.shop.shop(player= player)
-                    case 3:
-                        self.arena.arena_loop(player= player)
-                    case _:
-                        continue
-
+            list_options = [
+                f"Pokémon Center",
+                f"Pokémon Shop",
+                f"Pokémon Gym",
+                f"Open Menu",
+                f"Exit {self.name}"
+            ]
+            print(f"\t{self.name}")
+            choice = beaupy.select(options= list_options, return_index= True, cursor= "--->")
+            match choice:
+                case 0:
+                    self._pokemon_center(player= player)
+                case 1:
+                    self.shop.shop(player= player)
+                case 2:
+                    self.arena.arena_loop(player= player)
+                case 3:
+                    menu(player= player)
+                case 4:
+                    break
+                case _:
+                    pass
 class End(City):
-    pokémon_master_defeated = False
     
     def __init__(self):
         self.name = "Plateau Indigo"
         self.shop = Shop(rank_shop= 'Max',city_name= 'Plateau Indigo')
-        self.council_1 = Trainer(name= "Agatha", list_pokémon= [Pokémon(pok_id= 34)])
-        self.council_2 = Trainer(name= "Aldo", list_pokémon= [Pokémon(pok_id= 34)])
-        self.council_3 = Trainer(name= "Olga", list_pokémon= [Pokémon(pok_id= 34)])
-        self.council_4 = Trainer(name= "Pieter", list_pokémon= [Pokémon(pok_id= 34)])
-        self.master = Trainer(name= "Regis", list_pokémon= [Pokémon(pok_id= 34)])
+        self.council_4 = [
+            Trainer(
+                name= "Membre du Conseil 4 Olga", 
+                list_pokémon= [
+                    Pokémon(pok_id= 87, level= 52),
+                    Pokémon(pok_id= 91, level= 51),
+                    Pokémon(pok_id= 80, level= 52),
+                    Pokémon(pok_id= 124, level= 54),
+                    Pokémon(pok_id= 131, level= 54)
+                ]
+            ),       
+            Trainer(
+                name= "Membre du Conseil 4 Aldo", 
+                list_pokémon= [
+                    Pokémon(pok_id= 95, level= 51),
+                    Pokémon(pok_id= 107, level= 53),
+                    Pokémon(pok_id= 106, level= 53),
+                    Pokémon(pok_id= 95, level= 54),
+                    Pokémon(pok_id= 68, level= 56)
+                ]
+            ),
+            Trainer(
+                name= "Membre du Conseil 4 Agatha", 
+                list_pokémon= [
+                    Pokémon(pok_id= 94, level= 54),
+                    Pokémon(pok_id= 42, level= 54),
+                    Pokémon(pok_id= 93, level= 53),
+                    Pokémon(pok_id= 24, level= 56),
+                    Pokémon(pok_id= 94, level= 58)
+                ]
+            ),
+            Trainer(
+                name= "Membre du Conseil 4 Peter", 
+                list_pokémon= [
+                    Pokémon(pok_id= 130, level= 56),
+                    Pokémon(pok_id= 147, level= 54),
+                    Pokémon(pok_id= 147, level= 54),
+                    Pokémon(pok_id= 142, level= 58),
+                    Pokémon(pok_id= 149, level= 60)
+                ]
+            )
+        ]
+        self.master = Trainer(
+            name= "Maitre Regis", 
+            list_pokémon= [
+                Pokémon(pok_id= 18, level= 59),
+                Pokémon(pok_id= 65, level= 57),
+                Pokémon(pok_id= 112, level= 59),
+                Pokémon(pok_id= 59, level= 59),
+                Pokémon(pok_id= 103, level= 61),
+                Pokémon(pok_id= 9, level= 63)
+            ]
+        )
     
     def ligue_pokémon_loop(self,player: Player):
-        battle(player= player, opponent= self.council_1)
+        def __pause_menu():
+            pause_taken = beaupy.confirm("Do you want to take a break and open menu?")
+            if pause_taken:
+                menu(player= player)
+        
+        battle(player= player, opponent= self.council_4[0])
+        __pause_menu()
         if self.council_1.has_lost_vs_player:
-            battle(player= player, opponent= self.council_2)
+            battle(player= player, opponent= self.council_4[1])
             if self.council_2.has_lost_vs_player:
-                battle(player= player, opponent= self.council_3)
+                __pause_menu()
+                battle(player= player, opponent= self.council_4[2])
                 if self.council_3.has_lost_vs_player:
-                    battle(player= player, opponent= self.council_4)
+                    __pause_menu()
+                    battle(player= player, opponent= self.council_4[3])
                     if self.council_4.has_lost_vs_player:
+                        __pause_menu()
                         battle(player= player, opponent= self.master)
                         if self.master.has_lost_vs_player:
-                            End.pokémon_master_defeated = True
-        self.council_1.has_lost_vs_player = False
-        self.council_2.has_lost_vs_player = False
-        self.council_3.has_lost_vs_player = False
-        self.council_4.has_lost_vs_player = False
+                            return True
+        for member in self.council_4:
+            member.has_lost_vs_player = False
         return False
+    
     def roaming(self, player):
         while True:
-            print(self.name)
-            player_choice = input("Where do you want to go? \n" \
-            "\t1| Pokémon Center \n" \
-            "\t2| Pokémon Shop \n" \
-            "\t3| League Tower\n" \
-            "\tM| Menu\n" \
-            "\tE| Exit\n")
-            if player_choice == 'E' or player_choice == 'e':
-                break
-            elif player_choice == 'M' or player_choice == 'm':
-                menu(player= player)
-                continue
-            else:
-                try:
-                    player_choice = int(player_choice)
-                except ValueError:
-                    player_choice = 0
-                match player_choice:
-                    case 1:
-                        super()._pokemon_center(player= player)
-                    case 2:
-                        self.shop.shop(player= player)
-                    case 3:
-                        if player.inventory.has_all_badges:
-                            if self.ligue_pokémon_loop(player= player):
-                                # Trigger la fin du jeu
-                                pass
-                        else:
-                            print("You can't enter the Pokémon tower as you don't have collected all the badges.")
-                            sleep(1)
-                            clearscreen()
-                    case _:
-                        continue
+            print(f"\t{self.name}")
+            list_options = [
+                f"Pokémon Center \n",
+                f"Pokémon Shop \n",
+                f"League Tower\n\n",
+                f"Open Menu\t",
+                f"Exit {self.name}\n"
+            ]
+            choice = beaupy.select(options= list_options, return_index= True, cursor= "--->")
+            match choice:
+                case 0:
+                    super()._pokemon_center(player= player)
+                case 1:
+                    self.shop.shop(player= player)
+                case 2:
+                    if player.inventory.has_all_badges:
+                        if self.ligue_pokémon_loop(player= player):
+                            End.pokémon_master_defeated = True
+                    else:
+                        print("You can't enter the Pokémon tower as you don't have collected all the badges.")
+                        sleep(1)
+                        clearscreen()
+                case 3:
+                    menu(player= player)
+                case 4:
+                    break
+                case _:
+                    continue
 
 class Bourg_palette(City):
     def __init__(self):
@@ -165,40 +210,33 @@ class Bourg_palette(City):
 
     def roaming(self, player: Player):
         while True:
-            print(self.name)
-            choice = input("Where do you want to go ? \n"\
-                    "\t1| Maison\n" \
-                    "\t2| Labo du Professeur Chen\n"\
-                    "\tM| Menu\n"
-                    "\tE| Exit Bourg Palette\n" \
-            )
-            if choice == 'M' or choice == 'm':
-                menu(player= player)
-                continue
-
-            elif choice == 'E' or choice == 'e':
-                if self.has_select_pokémon:
-                    break
-                else:
-                    print("You can't go through the routes without a Pokémon, it's too dangerous!")
-                    sleep(2)
-                    clearscreen()
-            else:
-                try:
-                    choice_int = int(choice)
-                except ValueError: 
-                    choice_int = 0
-                match choice_int:
-                    case 0:
-                        print("Please enter a number")
-                    case 1:
-                        self.home(player= player)
-                    case 2:
-                        self.prof_chen_visit(player= player)
-                    case _:
-                        continue
+            print(f"\t{self.name}")
+            list_options = [
+                f"Home",
+                f"Professeur Chen's Lab",
+                f"Open Menu",
+                f"Exit {self.name}"
+            ]
+            choice = beaupy.select(options= list_options, return_index= True, cursor= "--->")
+            match choice:
+                case 0:
+                    self.home(player= player)
+                case 1:
+                    self.prof_chen_visit(player= player)
+                case 2:
+                    menu(player= player)
+                case 3:
+                    if self.has_select_pokémon:
+                        break
+                    else:
+                        print("You can't go through the routes without a Pokémon, it's too dangerous!")
+                        sleep(2)
+                        clearscreen()
+                case _:
+                    continue
                 
     def home(self, player: Player):
+        clearscreen()
         print("Welcome Home!")
         for pokémon in player.list_pokémon:
             pokémon.is_ko = False
@@ -209,10 +247,13 @@ class Bourg_palette(City):
         clearscreen()
 
     def prof_chen_visit(self, player: Player):
+        clearscreen()
         if not self.has_select_pokémon:
-            bulbizarre = Pokémon(pok_id= 1,level= 5)
-            salamèche = Pokémon(pok_id= 4, level= 5)
-            carapuce = Pokémon(pok_id= 7, level=5)
+            list_starters = [
+                Pokémon(pok_id= 1,level= 5),
+                Pokémon(pok_id= 4, level= 5),
+                Pokémon(pok_id= 7, level=5)
+            ]
             print(f"Hello {player.name} and welcome to my lab!")
             sleep(1)
             print(f"I suppose you are here to select you first Pokémon am I right ?")
@@ -224,49 +265,27 @@ class Bourg_palette(City):
             print(".")
             sleep(0.5)
             while True:
-                clearscreen()
                 print(f"Ok, {player.name}, now you need to choose your Pokémon starter!")
-                print(f"\t1 | {bulbizarre.name}, {bulbizarre.type}\n" 
-                    f"\t2 | {salamèche.name}, {salamèche.type}\n" 
-                    f"\t3 | {carapuce.name}, {carapuce.type}\n"
-                    )
-                starter_choice = ''
-                sleep(1)
-                try:
-                    starter_choice = int(input("Enter the corresponding number: "))
-                except ValueError:
-                    starter_choice = 0
-                match starter_choice:
-                    case 1:
-                        print(f"You chose {bulbizarre.name}")
-                        sleep(2)
-                        player.list_pokémon.append(bulbizarre)
-                        self.has_select_pokémon = True
-                        del salamèche
-                        del carapuce
-                        break
-                    case 2:
-                        print(f"You chose {salamèche.name}")
-                        sleep(2)
-                        player.list_pokémon.append(salamèche)
-                        self.has_select_pokémon = True
-                        del bulbizarre
-                        del carapuce
-                        break
-                    case 3:
-                        print(f"You chose {carapuce.name}")
-                        sleep(2)
-                        player.list_pokémon.append(carapuce)
-                        self.has_select_pokémon = True
-                        del bulbizarre
-                        del salamèche
-                        break
-                    case _:
-                        continue
+                print("Which pokémon will you select?")
+                list_starters_options = [
+                    f"{list_starters[0].name}, {list_starters[0].type}",
+                    f"{list_starters[1].name}, {list_starters[1].type}",
+                    f"{list_starters[2].name}, {list_starters[2].type}"
+                ]
+                choice = beaupy.select(list_starters_options, return_index= True, cursor= "--->")
+                confirmation = beaupy.confirm(f"Are you sure you want to select {list_starters[choice].name}?")
+                if confirmation:
+                    print(f"You choose {list_starters[choice].name}")
+                    sleep(2)
+                    player.list_pokémon.append(list_starters[choice])
+                    self.has_select_pokémon = True
+                    del list_starters
+                    break
             print("Oh, I almost forgot, here is 5 Poké Ball to start your adventure! Gook luck!")
             player.inventory.update_inventory(item= "Poké Ball",quantity= 5)
             sleep(2)
             clearscreen()
+        
         else:
             print("You have nothing to do at prof Chen's Lab!")
             sleep(1)

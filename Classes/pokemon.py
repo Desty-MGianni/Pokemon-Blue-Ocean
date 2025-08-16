@@ -224,9 +224,11 @@ class Pokémon:
         print(f"{self.name} has leveled up to {self.level}! (HP + {temp})")
 
     # Method that increase exp and call a check_level_up function
-    def gain_exp(self, enemy_level: int):
+    def gain_exp(self, enemy_level: int, primary: bool = True):
         base = random.randint(1,3)
         full = math.floor(base * (enemy_level**2.5) + base * self.level/4)
+        if not primary:
+            full = full / 2
         self.exp += full
         print(f"{self.name} gained {full} experience points!")
         self.check_level_up()

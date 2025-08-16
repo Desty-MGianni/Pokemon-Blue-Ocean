@@ -64,19 +64,19 @@ def battle(player:Player, opponent: Trainer | Pokémon):
                 if type(opponent) == Trainer:
                     deal_damage(player.list_pokémon[0], opponent.list_pokémon[0])
                     if opponent.list_pokémon[0].is_ko:
-                        player.list_pokémon[0].gain_exp(opponent.list_pokémon[0].level)
+                        player.list_pokémon[0].gain_exp(enemy_level= opponent.list_pokémon[0].level)
                         while counter < len(player.list_pokémon):
                             sleep(1)
-                            player.list_pokémon[counter].gain_exp(opponent.level / 2)
+                            player.list_pokémon[counter].gain_exp(enemy_level= opponent.list_pokémon[0].level, primary= False)
                             counter += 1
                         sleep(1)
                 elif type(opponent) == Pokémon:
                     deal_damage(player.list_pokémon[0],opponent)
                     if opponent.is_ko:
-                        player.list_pokémon[0].gain_exp(opponent.level)
+                        player.list_pokémon[0].gain_exp(enemy_level= opponent.level)
                         while counter < len(player.list_pokémon):
                             sleep(1)
-                            player.list_pokémon[counter].gain_exp(opponent.level / 2)
+                            player.list_pokémon[counter].gain_exp(enemy_level= opponent.level, primary= False)
                             counter += 1
                         sleep(2)
                 return True
@@ -91,7 +91,7 @@ def battle(player:Player, opponent: Trainer | Pokémon):
                     return False
                 return None
             elif type(opponent) == Pokémon:
-                if not player.use_item(in_battle_vs_wild_pok=True,wild_pokémon= opponent):
+                if not player.use_item(in_battle_vs_wild_pok=True, wild_pokémon= opponent):
                     return False
                 elif opponent.is_wild == False:
                     return True
@@ -196,9 +196,10 @@ def battle(player:Player, opponent: Trainer | Pokémon):
                 money_gained = random.randint(1250,3600)
                 print(f"You have won {money_gained} Poké-Dollars!")
                 player.inventory.manage_money(money_gained)
-                opponent.has_lost_vs_player = True
                 sleep(2)
             elif check_is_ko(fighter= player) and not check_is_ko(fighter= opponent):
+                for pokémon in opponent.list_pokémon:
+                    pokémon.health = pokémon.max_health
                 print("You have lost the fight!")
                 pre_lost = player.inventory.money
                 money_lost = random.randint(-3600,-1250)

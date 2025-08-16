@@ -4,7 +4,7 @@ def clearscreen(numlines= 100):
     """Clear the console.
     numlines is an optional argument used only as a fall-back.
     """
-    # Thanks to Steven D'Aprano, http://www.velocityreviews.com/forums
+    # Thanks to Steven D'Aprano
     if os.name == "posix":
         # Unix, Linux, macOS, BSD, etc.
         os.system('clear')

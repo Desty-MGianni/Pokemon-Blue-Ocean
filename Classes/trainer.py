@@ -5,7 +5,9 @@ from Classes.inventory import Inventory
 from Classes.pokemon import Pokémon
 
 class Trainer:
-    trainer_instances = {}
+
+    list_trainer_obj = {}
+
     def __repr__(self):
         str_output = f"\nTrainer: \n\t{self.name} \n"
         str_output += "Pokémon list:"
@@ -15,13 +17,12 @@ class Trainer:
             counter += 1
         return str_output
             
-    # Constructor
     def __init__(self,name:str ,list_pokémon:list):
         self.name = name
         self.is_player = False
         self.list_pokémon = list_pokémon
         self.has_lost_vs_player = False
-        Trainer.trainer_instances.update({self.name: self.has_lost_vs_player})
+        Trainer.list_trainer_obj.update({self.name: self.has_lost_vs_player})
             
     # method that verify if every pokémon of the trainer are K.O.
     def check_all_pok_ko(self):
@@ -30,9 +31,14 @@ class Trainer:
             if pokémon.is_ko:
                 counter += 1
         if counter == len(self.list_pokémon):
+            self.lose_update()
             return True
         else:
             return False
+
+    def lose_update(self):
+        self.has_lost_vs_player = True
+        Trainer.list_trainer_obj[self.name] = True
     
     def change_pokemon(self):
         temp = self.list_pokémon[0]

@@ -35,10 +35,10 @@ class Road:
         while True:
             print(self.name)
             choice =input("What do you want to do ?:\n" \
-            "\t1| Go through the road (you will battle vs trainers if not already done.)\n" \
-            "\t2| Roam through the bushes\n" \
-            "\tM| Open menu\n" \
-            "\tE| Exit the road\n")
+            f"\t1| Go through the road (you will battle vs trainers if not already done.)\n" \
+            f"\t2| Roam through the bushes\n\n" \
+            f"\tM| Menu\t" \
+            f"\tE| Exit {self.name}\n")
         
             if choice == 'e' or choice == 'E':
                 break
