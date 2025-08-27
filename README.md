@@ -4,7 +4,7 @@
 **Developper:**  Gianni Mucci
 **Python version:** 3.10.18 (venv)
 
-<center><img scr= "https://github.com/Desty-MGianni/Pokemon-Blue-Ocean/blob/main/Resources/title.png" width= 413 height= 217></center>
+<img scr= "https://github.com/Desty-MGianni/Pokemon-Blue-Ocean/blob/main/Resources/title.png">
 
 This project is made as an portfolio project in the Computer Science curriculum in [Codecademy.com](https://www.codecademy.com/career-journey/computer-science).
 
