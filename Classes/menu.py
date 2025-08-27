@@ -1,63 +1,57 @@
-import json
 import beaupy
 from time import sleep
-from Classes.trainer import Player, Trainer
+from Classes.pokemon import Pokémon
+from Classes.trainer import Player
 from Classes.clearscreen import clearscreen
-
 
 def menu(player: Player):
 
-    def save_serialization():
-        var_to_dump = {
-            "Player": {
-                "name": player.name,
-                "list pokémon": [
-                    player
-                ],
-                "inventory": {
-                    "money": player.inventory.money,
-                    "balls": player.inventory.balls,
-                    "potions": player.inventory.potions,
-                    "stones": player.inventory.stones,
-                    "badges": player.inventory.badges,
-                },
-            "Trainers": Trainer.list_trainer_obj
-            }
-
-        }
-        to_save = json.dumps(var_to_dump)
-        print(to_save)
-        sleep(10)
-
-    def swap_pokémon():
-        if len(player.list_pokémon) > 1:
+    def swap_pokémon() -> None:
+        if len(player.list_pokémon) == 0:
+            print("Go to the lab to receive your first pokémon!")
+            sleep(1)
+        elif len(player.list_pokémon) > 1:
             while True:
                 print("\tSwap Pokémons")
-                counter = 1
-                choice_manip_1 = beaupy.select(player.list_pokémon, return_index= True, cursor= "--->")
-                print(f"You have selected {player.list_pokémon[choice_manip_1].name}")
-                choice_manip_2 = beaupy.select(player.list_pokémon, return_index= True)
-                if choice_manip_1 == choice_manip_2:
-                    continue
-                else:
-                    temp = player.list_pokémon[choice_manip_1]
-                    player.list_pokémon[choice_manip_1] = player.list_pokémon[choice_manip_2]
-                    player.list_pokémon[choice_manip_2] = temp
+                counter: int = 1
+                choice_manip_1: int = beaupy.select(
+                    options= player.list_pokémon, 
+                    return_index= True, 
+                    cursor= "--->"
+                )
+                if choice_manip_1 is not None:
+                    print(f"You have selected {player.list_pokémon[choice_manip_1].name}")
+                    choice_manip_2: int = beaupy.select(
+                        player.list_pokémon, 
+                        return_index= True, 
+                        cursor= "--->"
+                    )
+                    if choice_manip_2 is not None:
+                        if choice_manip_1 == choice_manip_2:
+                            continue
+                        else:
+                            temp: Pokémon = player.list_pokémon[choice_manip_1]
+                            player.list_pokémon[choice_manip_1] = player.list_pokémon[choice_manip_2]
+                            player.list_pokémon[choice_manip_2] = temp
+                break
         else:
            input(player.list_pokémon[0])
-
+    
+    # Entry point of menu function
     while True:
             clearscreen()
-            list_options = [
+            options: list[str] = [
                 f"Swap Pokémons",
-                f"Inventory",
-                f"{player.name}",
-                f"Save Game",
+                f"Use Item",
+                f"{player.name}\n",
                 f"Exit Menu",
                 f"Quit Game"
             ]
             print("\tMenu:")
-            choice = beaupy.select(options= list_options, return_index= True, cursor= "--->")
+            choice: int = beaupy.select(
+                options= options, 
+                return_index= True, 
+                cursor= "--->")
             match choice:
                 case 0:
                     # Swap pokémons
@@ -71,16 +65,12 @@ def menu(player: Player):
                     # Show player, pok and inventory
                     input(player)
                 case 3:
-                    # Save game
-                    save_serialization()
-                case 4:
-                    # Quit menu
-                    sleep(1)
+                    # Exit menu
                     clearscreen()
                     break
-                case 5:
+                case 4:
                     # Quit game
-                    if beaupy.confirm("Are you sure you want to quit the game?"):
+                    if beaupy.confirm(question= "Are you sure you want to quit the game?", cursor= "--->"):
                         clearscreen()
                         print("Thank you for playing my game!")
                         sleep(3)
@@ -90,3 +80,4 @@ def menu(player: Player):
                     pass
 
                         
+

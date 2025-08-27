@@ -5,21 +5,19 @@ from time import sleep
 
 class Pokémon:
     # Functin dant load csv file with experience needed to level up and converting it to int: int format dict
-    def load_exp_table():
+    def load_exp_table() -> dict:
         with open('evo_exp_tables/exp_table.csv', newline='') as exp_table:
             temp = dict(csv.reader(exp_table,delimiter=';'))
-            converted = {int(lvl): int(exp) for lvl, exp in temp.items()}
-        return converted
+        return {int(lvl): int(exp) for lvl, exp in temp.items()}
     
     # Function that load a evolution by level table and convert it to the right format like exp_table
-    def load_evo_lvl_table():
+    def load_evo_lvl_table() -> dict:
         with open('Evo_exp_tables/evolution_lvl.csv',newline='') as evo_table:
             temp = list(csv.reader(evo_table,delimiter=';'))
-            converted = {int(prevo_id): [int(evo_id), int(level)] for prevo_id, evo_id, level in temp}
-        return converted
+        return {int(prevo_id): [int(evo_id), int(level)] for prevo_id, evo_id, level in temp}
     
     # Creating a Dict with ID as key, Name and Type as Values
-    pok_table = {
+    pok_table: dict[int: list[str, list[str]]] = {
        1: ["Bulbizarre", ["Plante", "Poison"]], 
        2: ["Herbizarre", ["Plante", "Poison"]], 
        3: ["Florizarre", ["Plante", "Poison"]],
@@ -175,7 +173,7 @@ class Pokémon:
     
     # Creaing an evolution_stone_table becaue the architecture needed (becaue of pokemon eevie) was convoluted and not possible(with my little knowledge) with csv imports.
     # Keys are str, values are dicts of int keys and int values, keys are the pok_id, values are the evo_id like evolution_lvl_table
-    evolution_stone_table = {
+    evolution_stone_table: dict[str: dict[int: int]] = {
         'Pierre Eau': {61: 62, 90: 91, 120: 121, 133: 134},
         'Pierre Feu': {37: 38, 58: 59, 133: 136},
         'Pierre Feuille': {44: 45, 70: 71, 102: 103},
@@ -183,67 +181,62 @@ class Pokémon:
         'Pierre Lune': {30: 31, 33: 34, 35: 36, 39: 40}
     }
     # store the result of loading evo_lvl.csv
-    evolution_lvl_table = load_evo_lvl_table()
+    evolution_lvl_table: dict[int: list[int]] = load_evo_lvl_table()
     
     # store the result of loading exp_table.csv
-    exp_table = load_exp_table()
+    exp_table: dict[int: int] = load_exp_table()
 
     # Consctructor
-    def __init__(self, pok_id: int, is_wild: bool = False, level: int = 3):
-        self.pok_id = pok_id
-        self.name = self.set_name()
-        self.level = level
-        self.exp = 0
-        self.max_health = 25 + random.randint(3,5) * self.level
-        self.health = self.max_health
-        self.type = self.pok_table[pok_id][1]
-        self.is_wild = is_wild
-        self.is_ko = False
+    def __init__(self, pok_id: int, is_wild: bool = False, level: int = 3) -> None:
+        self.pok_id: int = pok_id
+        self.name: str = self.set_name()
+        self.level: int = level
+        self.exp: int = 0
+        self.max_health: int = 25 + random.randint(3,5) * self.level
+        self.health: int = self.max_health
+        self.type: list[str] = self.pok_table[pok_id][1]
+        self.is_wild: bool = is_wild
+        self.is_ko: bool = False
         self.determ_is_evolvable()
-        self.private_id = random.randint(1000000,10000000)
+        self.private_id: int = random.randint(1_000_000, 10_000_000)
    
     # ToString method that display the basic info of the pokémon.
-    def __repr__(self):
+    def __str__(self) -> str:
          return f"{self.name} is a lvl {self.level} {Pokémon.pok_table[self.pok_id][0]} with {self.health}/{self.max_health} HP"
     
     # Method that search the name of the pokemon from it's key in the dic ref_table
-    def set_name(self):
+    def set_name(self) -> str:
         return Pokémon.pok_table[self.pok_id][0]
    
     # Method that ask user input to change the name of the pokémon
-    def change_name(self):
-        temp = input("What Type the new name of the Pokémon: ")
+    def change_name(self) -> None:
+        temp: str = input("Type the new name of the Pokémon: ")
         if temp != "":
              self.name = temp
    
-    # Method that increase the lvl of the pokémon, increasing it's HP and printing it to console.
-    def level_up(self):
+    # Called in check_level_up method.
+    def level_up(self) -> None:
         self.level += 1
-        temp = random.randint(3,5)
+        temp: int = random.randint(3,5)
         self.max_health += temp
-        print(f"{self.name} has leveled up to {self.level}! (HP + {temp})")
+        print(f"{self.name} has leveled up to lvl {self.level}! (HP + {temp})")
 
     # Method that increase exp and call a check_level_up function
-    def gain_exp(self, enemy_level: int, primary: bool = True):
-        base = random.randint(1,3)
-        full = math.floor(base * (enemy_level**2.5) + base * self.level/4)
-        if not primary:
-            full = full / 2
-        self.exp += full
-        print(f"{self.name} gained {full} experience points!")
+    def gain_exp(self, amount: int) -> None:
+        self.exp += amount
+        print(f"{self.name} gained {amount} experience points!")
         self.check_level_up()
     
     # Method that verify if the amount of exp exceed the limit set in exp_table to trigger a level up.
-    def check_level_up(self):
-        while self.exp >= Pokémon.exp_table[self.level]:
-            self.exp -= Pokémon.exp_table[self.level]          
+    def check_level_up(self) -> None:
+        while self.exp >= Pokémon.exp_table[self.level]:     
             self.level_up()
             self.determ_is_evolvable()
             if self.is_evolvable:
-                self.check_level_evolution()
+                self.level_evolution()
 
     # Method that check if the pok_id is a key in either evolution stone table or evolution_lvl_table
-    def determ_is_evolvable(self):
+    def determ_is_evolvable(self) -> None:
         if self.pok_id in Pokémon.evolution_lvl_table.keys():
             self.is_evolvable = True
         else:
@@ -254,8 +247,8 @@ class Pokémon:
                 else:
                     self.is_evolvable = False
     
-    # Method that will be called during level_ups to verify if the level threshold is cossed and to will trigger evolution
-    def check_level_evolution(self):
+    # Method that is called in check_level_up  to verify if the level threshold is crossed and to will trigger evolution
+    def level_evolution(self) -> None:
         if self.is_evolvable:
             if self.level >= Pokémon.evolution_lvl_table[self.pok_id][1]:
                 sleep(0.5)
@@ -272,47 +265,34 @@ class Pokémon:
                 self.name = self.set_name()
 
     # Method that handle the verification of ID's and, if ok, proceed to evolve the pokémon.      
-    def check_stone_evolution(self, stone: str):
+    def check_stone_evolution(self, stone: str) -> bool:
         if self.is_evolvable:
             if self.pok_id in Pokémon.evolution_stone_table[stone]:
-                answer = input(f"{self} can be evolved with {stone}. Do you want to proceed ?")
-                if answer == "yes" or answer == "y":
-                    sleep(0.5)
-                    print("\t.")
-                    sleep(1)
-                    print("\t.")
-                    sleep(1)
-                    print("\t.")
-                    print(f"Congratulaton! {self.name} has evolved from {Pokémon.pok_table[self.pok_id][0]} to ", end='')
-                    self.pok_id = Pokémon.evolution_stone_table[stone][self.pok_id]
-                    print(f"{Pokémon.pok_table[self.pok_id][0]}")
-                    self.max_health += random.randint(40,50)
-                    self.name = self.set_name()
-                    return True
+                return True
         return False
-
+    
     # Method that set is_ko to true if the instance has no HP left
-    def check_knocked_out(self):
+    def check_knocked_out(self) -> None:
         if self.health <=0:
             self.health = 0
             self.is_ko = True
             print(f"{self.name} is K.O! He cannot continue to fight")
     
     # Method that reduce the health of a pokemon and check if is_knoced_out
-    def lose_health(self,damages):
+    def lose_health(self, damages: int) -> None:
         self.health -= damages
         self.check_knocked_out()
     
     # Method that handle healing the pokémon, with potions or pokëmon center!
-    def gain_health(self,heal):
-        pre_heal = self.health
+    def gain_health(self,heal: int) -> None:
+        pre_heal: int = self.health
         self.health += heal
         if self.health > self.max_health:
             self.health = self.max_health
         print(f"{self.name} regained {self.health - pre_heal} HP")
     
-    # method that return a int value corresponding to the damage inflicted to à pokémon
-    def pok_damages(self):
+    # method that return a int value corresponding to the damage inflicted to à pokémon (called in battle)
+    def pok_damages(self) -> int:
         return math.floor(self.max_health * 0.25 + random.randint(0,3))
 
     
