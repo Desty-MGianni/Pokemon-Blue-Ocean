@@ -1,10 +1,10 @@
 # Project Pokémon Blue Ocean
-<img src= "www.github.com/Desty-MGianni/Pokemon-Blue-Ocean/Resources/egg.icns" align= "right">
+<img src= "https://github.com/Desty-MGianni/Pokemon-Blue-Ocean/blob/main/Resources/egg.icns" align= "right">
 
 **Developper:**  Gianni Mucci
 **Python version:** 3.10.18 (venv)
 
-<center><img scr= "www.github.com/Desty-MGIanni/Pokemon-Blue-Ocean/Resources/title.png" width= 413 height= 217></center>
+<center><img scr= "https://github.com/Desty-MGianni/Pokemon-Blue-Ocean/blob/main/Resources/title.png" width= 413 height= 217></center>
 
 This project is made as an portfolio project in the Computer Science curriculum in [Codecademy.com](https://www.codecademy.com/career-journey/computer-science).
 
