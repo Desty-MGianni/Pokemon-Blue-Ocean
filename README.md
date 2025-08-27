@@ -4,7 +4,7 @@
 **Developper:**  Gianni Mucci
 **Python version:** 3.10.18 (venv)
 
-<img scr= "https://github.com/Desty-MGianni/Pokemon-Blue-Ocean/blob/main/Resources/title.png">
+![](https://github.com/Desty-MGianni/Pokemon-Blue-Ocean/blob/main/Resources/title.png")
 
 This project is made as an portfolio project in the Computer Science curriculum in [Codecademy.com](https://www.codecademy.com/career-journey/computer-science).
 
@@ -13,7 +13,7 @@ I know I lack a lot of knowledge as it's my first experience with coding so if y
 ## How to run the code:
 
 1. With terminal go to the directory where is located your `main.py` file.
-2. Type `source env/bin/activate`, it launch the vitual environment so that you don't need to install anything
+2. Type `source env/bin/activate`, it launch the vitual environment so that you don't need to install anything.
 3. Type `python main.py` to launch the game.
 
 ## External module used to make this program:
